@@ -14,16 +14,16 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
         info = @Info(
                 contact = @Contact(
-                    name = "Equip06",
-                    email = "equip06@gmail.com",
+                    name = "Equip04",
+                    email = "equip04@gmail.com",
                     url = "https://google.com"
                 ),
                 description = "OpenApi documentation for spring security",
-                title = "OpenApi specification - Equip06",
+                title = "OpenApi specification - Equip04",
                 version = "1.0",
                 license = @License(
-                    name = "License Equip06",
-                    url = "http://equip06.com"
+                    name = "License Equip04",
+                    url = "http://equip04.com"
                 ),
                 termsOfService = "https://ieslluisimarro.org/termsServices" 
         
