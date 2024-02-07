@@ -5,7 +5,7 @@ nombre VARCHAR(50),
 email VARCHAR(50) ,
 passwd VARCHAR(50) ,
 saldo INT,
-estadisticas TEXT,
+estadisticas TEXT(),
  CONSTRAINT pk_usuarios PRIMARY KEY(id));
 
 
