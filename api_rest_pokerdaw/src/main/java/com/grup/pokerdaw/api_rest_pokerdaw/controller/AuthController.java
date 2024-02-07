@@ -66,10 +66,12 @@ public class AuthController {
         passwordEncoder.encode(nuevoUsuario.getPassword()));
 
         Set<RolDb> rolesDb = new HashSet();
-        rolesDb.add(rolService.getByRolNombre(RolNombre.ROLE_USER) .get());
 
-        if (nuevoUsuario.getRoles().contains("admin"))
+        if (nuevoUsuario.getRoles().contains("admin")){
         rolesDb.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN) .get());
+        }else{
+            rolesDb.add(rolService.getByRolNombre(RolNombre.ROLE_USER) .get());
+        }
         usuarioDb.setRoles(rolesDb);
         usuarioService.save(usuarioDb);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Usuario creado"));
@@ -81,14 +83,13 @@ public class AuthController {
         if(bindingResult.hasErrors())
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Mensaje("Datos incorrectos"));
 
-        Authentication authentication =
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNickname(), loginUsuario.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateToken(authentication);
-        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNickname(), loginUsuario.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtProvider.generateToken(authentication);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         
-        return ResponseEntity.status(HttpStatus.OK).body(jwtDto);
+            return ResponseEntity.status(HttpStatus.OK).body(jwtDto);
+        
     }
 }
