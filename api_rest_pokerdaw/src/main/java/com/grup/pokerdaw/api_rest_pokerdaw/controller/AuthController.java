@@ -66,10 +66,12 @@ public class AuthController {
         passwordEncoder.encode(nuevoUsuario.getPassword()));
 
         Set<RolDb> rolesDb = new HashSet();
-        rolesDb.add(rolService.getByRolNombre(RolNombre.ROLE_USER) .get());
 
-        if (nuevoUsuario.getRoles().contains("admin"))
+        if (nuevoUsuario.getRoles().contains("admin")){
         rolesDb.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN) .get());
+        }else{
+            rolesDb.add(rolService.getByRolNombre(RolNombre.ROLE_USER) .get());
+        }
         usuarioDb.setRoles(rolesDb);
         usuarioService.save(usuarioDb);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Usuario creado"));
