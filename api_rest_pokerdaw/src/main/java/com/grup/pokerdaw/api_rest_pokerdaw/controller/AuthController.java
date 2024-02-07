@@ -1,6 +1,8 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +31,7 @@ import com.grup.pokerdaw.api_rest_pokerdaw.entity.RolDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.entity.UsuarioDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.enums.RolNombre;
 import com.grup.pokerdaw.api_rest_pokerdaw.jwt.JwtService;
+import com.grup.pokerdaw.api_rest_pokerdaw.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.service.RolService;
 import com.grup.pokerdaw.api_rest_pokerdaw.service.UsuarioService;
 
@@ -50,6 +55,11 @@ public class AuthController {
 
     @Autowired
     JwtService jwtProvider;
+
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
@@ -92,4 +102,48 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.OK).body(jwtDto);
         
     }
+    @PostMapping("/infoPerfil/{nickname}")
+    public ResponseEntity<?> obtenerDetallesUsuario(@PathVariable String nickname){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+
+            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
+
+            if (usuarioDb != null) {
+               
+
+                return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
+        }
+    }
+
+    @PostMapping("/infoPartidas/{id}")
+    public ResponseEntity<?> obtenerDetallesUsuario(@PathVariable Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+
+            Optional<UsuarioDb> usuarioDb = usuarioRepository.findById(id);
+
+            if (usuarioDb != null) {
+               
+
+                return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
+        }
+    }
+
 }
