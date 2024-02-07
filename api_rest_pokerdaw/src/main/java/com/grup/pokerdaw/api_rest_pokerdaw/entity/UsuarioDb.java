@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "usuarios")
 public class UsuarioDb {
-     @Id
+    @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
     @NotNull
@@ -49,6 +49,7 @@ public class UsuarioDb {
         this.email = email;
         this.password = password;
     }
+
 
     
 }
