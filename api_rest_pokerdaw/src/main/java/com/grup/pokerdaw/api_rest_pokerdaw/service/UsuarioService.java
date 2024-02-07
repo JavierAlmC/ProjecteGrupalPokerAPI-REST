@@ -20,7 +20,7 @@ public class UsuarioService {
     UsuarioRepository usuaurioRepository;
 
     public Optional<UsuarioDb> getByNickname(String nickname){
-        return UsuarioRepository.findByNickname(nickname);
+        return usuaurioRepository.findByNickname(nickname);
     }
 
     public boolean existsByNickname(String nickname){
