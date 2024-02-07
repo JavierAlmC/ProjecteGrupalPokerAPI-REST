@@ -6,6 +6,7 @@ email VARCHAR(50) ,
 passwd VARCHAR(50) ,
 saldo INT,
 estadisticas TEXT(),
+nickname VARCHAR(50)
  CONSTRAINT pk_usuarios PRIMARY KEY(id));
 
 
@@ -25,6 +26,8 @@ CREATE  TABLE IF NOT EXISTS usuarios_partidas (
   CONSTRAINT pk_usuarios_partidas PRIMARY KEY (idUsuario,idPartida),
   FOREIGN KEY (idUsuario) REFERENCES usuarios(id);
   FOREIGN KEY (idPartida) REFERENCES partidas(idGame) );
+
+
 -- ---------------------------------------------------
 -- INSERCIÓN DE DATOS
 -- ---------------------------------------------------

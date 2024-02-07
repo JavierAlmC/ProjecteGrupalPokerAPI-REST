@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grup.pokerdaw.api_rest_pokerdaw.dto.JwtDto;
+import com.grup.pokerdaw.api_rest_pokerdaw.dto.LoginUsuario;
+import com.grup.pokerdaw.api_rest_pokerdaw.dto.Mensaje;
+import com.grup.pokerdaw.api_rest_pokerdaw.dto.NuevoUsuario;
 import com.grup.pokerdaw.api_rest_pokerdaw.entity.RolDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.entity.UsuarioDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.enums.RolNombre;
 import com.grup.pokerdaw.api_rest_pokerdaw.jwt.JwtService;
-import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.JwtDto;
-import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.LoginUsuario;
-import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.Mensaje;
-import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.NuevoUsuario;
 import com.grup.pokerdaw.api_rest_pokerdaw.service.RolService;
 import com.grup.pokerdaw.api_rest_pokerdaw.service.UsuarioService;
 
