@@ -1,4 +1,4 @@
-package com.grup.pokerdaw.api_rest_pokerdaw.dto;
+package com.grup.pokerdaw.api_rest_pokerdaw.model.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
