@@ -1,5 +1,4 @@
-package com.grup.pokerdaw.api_rest_pokerdaw.entity;
-
+package com.grup.pokerdaw.api_rest_pokerdaw.security.entity;
 
 import java.util.stream.Collectors;
 
@@ -10,15 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class UsuarioPrincipal implements UserDetails{
+public class UsuarioPrincipal implements UserDetails {
 
     private String nombreCompleto;
     private String nickname;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    
-  
+
     public UsuarioPrincipal(String nombreCompleto, String nickname, String email, String password,
             Collection<? extends GrantedAuthority> authorities) {
         this.nombreCompleto = nombreCompleto;
@@ -28,9 +26,11 @@ public class UsuarioPrincipal implements UserDetails{
         this.authorities = authorities;
     }
 
-    public static UsuarioPrincipal build(UsuarioDb usuarioDb){
-        List<GrantedAuthority> authorities = usuarioDb.getRoles().stream().map(rol -> new SimpleGrantedAuthority(rol.getNombre().name())).collect(Collectors.toList());
-        return new UsuarioPrincipal(usuarioDb.getNombre(), usuarioDb.getNickname(), usuarioDb.getEmail(), usuarioDb.getPassword(), authorities);
+    public static UsuarioPrincipal build(UsuarioDb usuarioDb) {
+        List<GrantedAuthority> authorities = usuarioDb.getRoles().stream()
+                .map(rol -> new SimpleGrantedAuthority(rol.getNombre().name())).collect(Collectors.toList());
+        return new UsuarioPrincipal(usuarioDb.getNombre(), usuarioDb.getNickname(), usuarioDb.getEmail(),
+                usuarioDb.getPassword(), authorities);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class UsuarioPrincipal implements UserDetails{
 
     @Override
     public boolean isAccountNonExpired() {
-       return true;
+        return true;
     }
 
     @Override
@@ -76,6 +76,7 @@ public class UsuarioPrincipal implements UserDetails{
         return nombreCompleto;
 
     }
+
     public String getEmail() {
         return email;
 

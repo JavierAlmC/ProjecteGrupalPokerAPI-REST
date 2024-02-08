@@ -1,8 +1,7 @@
-package com.grup.pokerdaw.api_rest_pokerdaw.entity;
+package com.grup.pokerdaw.api_rest_pokerdaw.security.entity;
 
 import java.util.HashSet;
 import java.util.Set;
-
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,8 +25,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "usuarios")
 public class UsuarioDb {
-     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     private String nombre;
@@ -39,10 +38,9 @@ public class UsuarioDb {
     private String password;
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "idUsuario"),
-    inverseJoinColumns = @JoinColumn(name = "idRol"))
+    @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idRol"))
     private Set<RolDb> roles = new HashSet<>();
-    
+
     public UsuarioDb(@NotNull String nombre, String nickname, @NotNull String email, @NotNull String password) {
         this.nombre = nombre;
         this.nickname = nickname;
@@ -50,5 +48,4 @@ public class UsuarioDb {
         this.password = password;
     }
 
-    
 }
