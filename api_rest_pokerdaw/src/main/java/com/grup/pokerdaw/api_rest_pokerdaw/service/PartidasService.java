@@ -9,15 +9,24 @@ import org.springframework.transaction.annotation.Transactional;
 import com.grup.pokerdaw.api_rest_pokerdaw.entity.PartidaDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.PartidaRepository;
 
+import io.micrometer.common.lang.NonNull;
+
 @Service
 @Transactional
 public class PartidasService {
     
     @Autowired
-    PartidaRepository usuauriPartidaRepository;
+    PartidaRepository partidaRepository;
 
     public Optional<PartidaDb> getById(Long id){
-        return usuauriPartidaRepository.findById(id);
+        return partidaRepository.findById(id);
     }
 
+     public void save(@NonNull PartidaDb partida){
+        partidaRepository.save(partida);
+    }
+
+    public void findAll(@NonNull PartidaDb partida){
+        partidaRepository.findAll();
+    }
 }

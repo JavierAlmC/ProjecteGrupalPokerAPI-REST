@@ -23,13 +23,13 @@ public class PartidaDb {
  
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    //@Column(name = "idGame", nullable = false, unique = true)
     private Long idGame;
     
     @NotNull
-    @Column(columnDefinition = "JSON")
-    private GameState state = new GameState();
+    private String gameState;
+    /*private GameState state = new GameState();
 
-  
     public static class GameState {
         private int deal = 0; 
         private UsuarioDb[] players = {};
@@ -46,5 +46,5 @@ public class PartidaDb {
         public Deck newDeck() {
             return new Deck();
         }
-    }
+    }*/
 }

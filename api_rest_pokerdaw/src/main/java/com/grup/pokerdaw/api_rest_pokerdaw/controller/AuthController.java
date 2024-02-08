@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,10 +27,12 @@ import com.grup.pokerdaw.api_rest_pokerdaw.dto.JwtDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.dto.LoginUsuario;
 import com.grup.pokerdaw.api_rest_pokerdaw.dto.Mensaje;
 import com.grup.pokerdaw.api_rest_pokerdaw.dto.NuevoUsuario;
+import com.grup.pokerdaw.api_rest_pokerdaw.entity.PartidaDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.entity.RolDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.entity.UsuarioDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.enums.RolNombre;
 import com.grup.pokerdaw.api_rest_pokerdaw.jwt.JwtService;
+import com.grup.pokerdaw.api_rest_pokerdaw.repository.PartidaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.service.RolService;
 import com.grup.pokerdaw.api_rest_pokerdaw.service.UsuarioService;
@@ -59,6 +62,8 @@ public class AuthController {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    PartidaRepository partidaRepository;
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
@@ -101,7 +106,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.OK).body(jwtDto);
         
     }
-    @PostMapping("/infoPerfil/{nickname}")
+    @GetMapping("/infoPerfil/{nickname}")
     public ResponseEntity<?> obtenerDetallesUsuario(@PathVariable String nickname){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -140,26 +145,44 @@ public class AuthController {
         }
     }
 
-/* 
-    @PostMapping("/infoPartidas/{id}")
-    public ResponseEntity<?> obtenerDetallesUsuario(@PathVariable Long id){
+
+   @PostMapping("/nuevaPartida/{id}")
+public ResponseEntity<?> nuevaPartida(BindingResult bindingResult) {
+
+    if (bindingResult.hasErrors()) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Mensaje("Datos incorrectos o inválidos"));
+    }
+
+    PartidaDb partidaDb = new PartidaDb();
+    //partidaDb.setState().;
+   
+    partidaRepository.save(partidaDb);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
+}
+
+
+ 
+    @PostMapping("/infoPartidas")
+    public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
 
 
             Optional<UsuarioDb> usuarioDb = usuarioRepository.findById(id);
+            partidaRepository.findAll();
 
             if (usuarioDb != null) {
                
 
                 return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Partida no encontrada"));
             }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
         }
-    }*/
+    }
 
 }
