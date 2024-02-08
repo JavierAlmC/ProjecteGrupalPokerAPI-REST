@@ -1,6 +1,5 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.controller;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -16,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,7 +73,7 @@ public class AuthController {
         new UsuarioDb(nuevoUsuario.getNombre(), nuevoUsuario.getNickname(), nuevoUsuario.getEmail(),
         passwordEncoder.encode(nuevoUsuario.getPassword()));
 
-        Set<RolDb> rolesDb = new HashSet();
+        Set<RolDb> rolesDb = new HashSet<>();
 
         if (nuevoUsuario.getRoles().contains("admin")){
         rolesDb.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN) .get());
@@ -107,7 +105,6 @@ public class AuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 
             Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
@@ -129,7 +126,6 @@ public class AuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 
             Optional<UsuarioDb> usuarioDb = usuarioRepository.findById(id);

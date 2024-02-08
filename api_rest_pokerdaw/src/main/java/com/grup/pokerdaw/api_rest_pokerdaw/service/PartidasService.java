@@ -6,18 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.entity.UsuarioDb;
-import com.grup.pokerdaw.api_rest_pokerdaw.repository.UsuarioRepository;
+import com.grup.pokerdaw.api_rest_pokerdaw.entity.PartidaDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.repository.UsuarioPartidaRepository;
 
 @Service
 @Transactional
 public class PartidasService {
     
     @Autowired
-    UsuarioRepository usuaurioRepository;
+    UsuarioPartidaRepository usuauriPartidaRepository;
 
-    public Optional<UsuarioDb> getById(Long id){
-        return usuaurioRepository.findById(id);
+    public Optional<PartidaDb> getById(Long id){
+        return usuauriPartidaRepository.findById(id);
     }
 
 }
