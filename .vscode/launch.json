@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiRestPokerdawApplication<api_rest_pokerdaw>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.grup.pokerdaw.api_rest_pokerdaw.ApiRestPokerdawApplication",
+            "projectName": "api_rest_pokerdaw",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

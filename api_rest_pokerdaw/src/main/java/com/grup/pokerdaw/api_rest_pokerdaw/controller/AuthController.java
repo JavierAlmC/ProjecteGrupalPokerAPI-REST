@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +35,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -76,7 +77,7 @@ public class AuthController {
         usuarioService.save(usuarioDb);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Usuario creado"));
     }
-
+   
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
 
@@ -88,6 +89,7 @@ public class AuthController {
             String jwt = jwtProvider.generateToken(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+
         
             return ResponseEntity.status(HttpStatus.OK).body(jwtDto);
         
