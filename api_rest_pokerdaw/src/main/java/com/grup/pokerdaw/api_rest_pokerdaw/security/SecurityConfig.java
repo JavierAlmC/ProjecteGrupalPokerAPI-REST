@@ -1,9 +1,8 @@
-package com.grup.pokerdaw.api_rest_pokerdaw;
+package com.grup.pokerdaw.api_rest_pokerdaw.security;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,11 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.jwt.JwtAuthenticationFilter;
-import com.grup.pokerdaw.api_rest_pokerdaw.service.UserDetailsServiceImpl;
+import com.grup.pokerdaw.api_rest_pokerdaw.security.jwt.JwtAuthenticationFilter;
+import com.grup.pokerdaw.api_rest_pokerdaw.security.service.UserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -77,5 +74,4 @@ public class SecurityConfig {
         return source;
     }
 
-  
 }

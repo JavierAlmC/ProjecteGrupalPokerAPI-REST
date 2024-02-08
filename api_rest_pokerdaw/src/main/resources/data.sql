@@ -1,13 +1,16 @@
 DROP TABLE IF EXISTS usuarios;
 CREATE  TABLE IF NOT EXISTS usuarios(
-id IDENTITY,
-nombre VARCHAR(50),
-email VARCHAR(50) ,
-passwd VARCHAR(50) ,
-saldo INT,
-estadisticas TEXT(),
-nickname VARCHAR(50)
- CONSTRAINT pk_usuarios PRIMARY KEY(id));
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(255) NOT NULL ,
+  `nickname` VARCHAR(255) NOT NULL ,
+  `email` VARCHAR(255) NOT NULL ,
+  `password` VARCHAR(255) NOT NULL ,
+  `saldo` INT,
+  `estadisticas` TEXT,
+  PRIMARY KEY (`id`),
+  CONSTRAINT usuario_uk_nickname UNIQUE KEY (`nickname`))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
@@ -15,8 +18,8 @@ nickname VARCHAR(50)
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS partidas;
 CREATE  TABLE IF NOT EXISTS partidas (
-  idGame IDENTITY,
-  state TEXT(),
+  idGame BIGINT,
+  gameState TEXT(),
   CONSTRAINT pk_partidas PRIMARY KEY (idGame) );
   
 DROP TABLE IF EXISTS usuarios_partidas;

@@ -1,6 +1,6 @@
-package com.grup.pokerdaw.api_rest_pokerdaw.entity;
+package com.grup.pokerdaw.api_rest_pokerdaw.security.entity;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.enums.RolNombre;
+import com.grup.pokerdaw.api_rest_pokerdaw.security.enums.RolNombre;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "roles")
 public class RolDb {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
     @Enumerated(EnumType.STRING)

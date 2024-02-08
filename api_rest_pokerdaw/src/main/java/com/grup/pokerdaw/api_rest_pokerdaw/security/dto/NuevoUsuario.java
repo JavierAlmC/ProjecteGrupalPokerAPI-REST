@@ -1,4 +1,5 @@
-package com.grup.pokerdaw.api_rest_pokerdaw.dto;
+package com.grup.pokerdaw.api_rest_pokerdaw.security.dto;
+
 import java.util.HashSet;
 import java.util.Set;
 

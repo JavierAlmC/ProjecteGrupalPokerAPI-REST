@@ -1,4 +1,4 @@
-package com.grup.pokerdaw.api_rest_pokerdaw.entity;
+package com.grup.pokerdaw.api_rest_pokerdaw.security.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "usuarios_partidas")
 public class UsuarioPartidaDb {
     @Id
-    private Long idGame;   
+    private Long idGame;
     @Id
     private Long idUsuario;
 }
