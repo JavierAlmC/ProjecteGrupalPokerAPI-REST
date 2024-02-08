@@ -12,6 +12,30 @@ CREATE  TABLE IF NOT EXISTS usuarios(
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = latin1;
 
+CREATE  TABLE IF NOT EXISTS `roles` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(255) NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+CREATE  TABLE IF NOT EXISTS `usuarios_roles` (
+  idUsuario BigInt  NOT NULL,  
+  idRol INT(11)  NOT NULL,
+  PRIMARY KEY (`idUsuario`,`idRol`),
+  CONSTRAINT `usuarios_roles_fk_usuarios`
+    FOREIGN KEY (`idUsuario` )
+    REFERENCES `usuarios` (`id` ),
+  CONSTRAINT `usuarios_roles_fk_roles`
+    FOREIGN KEY (`idRol` )
+    REFERENCES `roles` (`id` ) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+INSERT INTO `roles` (`id`, `nombre`) VALUES
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_USER');
+
 
 -- -----------------------------------------------------
 -- Table `partidas`
@@ -35,15 +59,5 @@ CREATE  TABLE IF NOT EXISTS usuarios_partidas (
 -- INSERCIÓN DE DATOS
 -- ---------------------------------------------------
 
-INSERT INTO `usuarios` (`id`,`nombre`,`email`,`passwd`,`saldo`,`estadisticas`) VALUES (1,'Pepe','pepe@mail.com',NULL,NULL,NULL);
-INSERT INTO `usuarios` (`id`,`nombre`,`email`,`passwd`,`saldo`,`estadisticas`) VALUES (2,'Paco','paco@mail.com',NULL,NULL,NULL);
-INSERT INTO `usuarios` (`id`,`nombre`,`email`,`passwd`,`saldo`,`estadisticas`) VALUES (3,'Juan','juan@mail.com',NULL,NULL,NULL);
-INSERT INTO `usuarios` (`id`,`nombre`,`email`,`passwd`,`saldo`,`estadisticas`) VALUES (4,'Marcos','marcos@mail.com',NULL,NULL,NULL);
 
-INSERT INTO `partidas` (`idGame`,`state`) VALUES (1,NULL);
-
-INSERT INTO `usuarios_partidas` (`idPartida`,`idUsuario`) VALUES (1,1);
-INSERT INTO `usuarios_partidas` (`idPartida`,`idUsuario`) VALUES (1,2);
-INSERT INTO `usuarios_partidas` (`idPartida`,`idUsuario`) VALUES (1,3);
-INSERT INTO `usuarios_partidas` (`idPartida`,`idUsuario`) VALUES (1,4);
 
