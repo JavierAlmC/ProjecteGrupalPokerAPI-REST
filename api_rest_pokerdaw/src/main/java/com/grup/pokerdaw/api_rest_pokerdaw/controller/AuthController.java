@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -121,6 +122,25 @@ public class AuthController {
         }
     }
 
+    @DeleteMapping("/eliminarUsuario/{nickname}")
+    public ResponseEntity<?> eliminarUsuario(@PathVariable String nickname) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
+
+            if (usuarioDb.isPresent()) {
+                usuarioRepository.delete(usuarioDb.get());
+                return ResponseEntity.status(HttpStatus.OK).body(new Mensaje("Usuario eliminado correctamente"));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
+        }
+    }
+
+/* 
     @PostMapping("/infoPartidas/{id}")
     public ResponseEntity<?> obtenerDetallesUsuario(@PathVariable Long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -140,6 +160,6 @@ public class AuthController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
         }
-    }
+    }*/
 
 }

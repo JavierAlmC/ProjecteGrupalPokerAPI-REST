@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.grup.pokerdaw.api_rest_pokerdaw.entity.PartidaDb;
 
-public interface UsuarioPartidaRepository extends JpaRepository<PartidaDb,Long>{
+public interface PartidaRepository extends JpaRepository<PartidaDb,Long>{
     Optional<PartidaDb> findById(Long id);
 }
