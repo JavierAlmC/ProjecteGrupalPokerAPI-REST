@@ -1,10 +1,10 @@
-package com.grup.pokerdaw.api_rest_pokerdaw.security.repository;
+package com.grup.pokerdaw.api_rest_pokerdaw.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.grup.model.db.PartidaDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 
 public interface PartidaRepository extends JpaRepository<PartidaDb, Long> {
     Optional<PartidaDb> findById(Long id);

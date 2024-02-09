@@ -1,16 +1,14 @@
-package com.grup.model.db;
+package com.grup.pokerdaw.api_rest_pokerdaw.model.db;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @AllArgsConstructor
 @Data
-@Entity
 public class DeckDb {
     private final List<String> suites = List.of("hearts", "diamonds", "clubs", "spades");
     private final List<Integer> values = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);

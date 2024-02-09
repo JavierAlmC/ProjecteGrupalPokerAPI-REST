@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grup.model.db.PartidaDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.repository.PartidaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.JwtDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.LoginUsuario;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
@@ -32,7 +33,6 @@ import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.RolDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.enums.RolNombre;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.jwt.JwtService;
-import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.PartidaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.service.RolService;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.service.UsuarioService;

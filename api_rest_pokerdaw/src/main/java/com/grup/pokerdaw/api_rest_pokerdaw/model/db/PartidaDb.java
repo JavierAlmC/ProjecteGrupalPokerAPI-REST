@@ -1,4 +1,4 @@
-package com.grup.model.db;
+package com.grup.pokerdaw.api_rest_pokerdaw.model.db;
 
 import jakarta.persistence.Entity;
 
