@@ -1,4 +1,4 @@
-package com.grup.pokerdaw.api_rest_pokerdaw;
+package com.grup.pokerdaw.api_rest_pokerdaw.security;
 
 import java.util.List;
 
