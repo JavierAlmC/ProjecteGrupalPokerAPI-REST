@@ -1,6 +1,7 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.security.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,6 +44,8 @@ import jakarta.validation.Valid;
 @RequestMapping("/auth")
 @CrossOrigin
 public class AuthController {
+   
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -145,33 +148,41 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/nuevaPartida/{id}")
-    public ResponseEntity<?> nuevaPartida(BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Mensaje("Datos incorrectos o inválidos"));
-        }
+    @PostMapping("/nuevaPartida/{nickname}")
+    public ResponseEntity<?> nuevaPartida(@PathVariable String nickname) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         PartidaDb partidaDb = new PartidaDb();
         // partidaDb.setState().;
 
-        partidaRepository.save(partidaDb);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
+        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+
+            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
+
+            if (usuarioDb != null) {
+                partidaRepository.save(partidaDb);
+                return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
+        }
     }
 
-    @PostMapping("/infoPartidas")
-    public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id) {
+    @GetMapping("/infoPartidas/{nickname}")
+    public ResponseEntity<?> obtenerDetallesPartida(@PathVariable String nickname) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
 
-            Optional<UsuarioDb> usuarioDb = usuarioRepository.findById(id);
-            partidaRepository.findAll();
+            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
+            List<PartidaDb> partidaDb = partidaRepository.findAll();
 
             if (usuarioDb != null) {
-
-                return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
+                partidaRepository.findAll();
+                return ResponseEntity.status(HttpStatus.OK).body(partidaDb);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Partida no encontrada"));
             }

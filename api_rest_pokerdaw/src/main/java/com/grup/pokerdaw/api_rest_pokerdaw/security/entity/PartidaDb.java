@@ -1,5 +1,6 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.security.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.GeneratedValue;
@@ -20,30 +21,29 @@ public class PartidaDb {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @Column(name = "idGame", nullable = false, unique = true)
     private Long idGame;
 
+    /*@Column(columnDefinition = "json")*/
     @NotNull
     private String gameState;
-    /*
-     * private GameState state = new GameState();
-     * 
-     * public static class GameState {
-     * private int deal = 0;
-     * private UsuarioDb[] players = {};
-     * private String round = "Preflop";
-     * private int whoIsDealer = 0;
-     * private int[] table = {};
-     * private int blinds = 10;
-     * private Deck deck = new Deck().newDeck();
-     * private int playingNow = 0;
-     * private int minDealValue = 10;
-     * }
-     * 
-     * public static class Deck {
-     * public Deck newDeck() {
-     * return new Deck();
-     * }
-     * }
-     */
+    /*private GameState state = new GameState();
+      
+      public static class GameState {
+      private int deal = 0;
+      private UsuarioDb[] players = {};
+      private String round = "Preflop";
+      private int whoIsDealer = 0;
+      private int[] table = {};
+      private int blinds = 10;
+      private Deck deck = new Deck().newDeck();
+      private int playingNow = 0;
+      private int minDealValue = 10;
+      }
+      
+      public static class Deck {
+      public Deck newDeck() {
+      return new Deck();
+      }
+      }*/
+     
 }
