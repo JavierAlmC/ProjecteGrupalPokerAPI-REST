@@ -1,4 +1,4 @@
-package com.grup.pokerdaw.api_rest_pokerdaw;
+package com.grup.pokerdaw.api_rest_pokerdaw.swagger;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
