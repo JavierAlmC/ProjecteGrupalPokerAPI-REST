@@ -14,14 +14,20 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PartidaList;
+import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.PartidaService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -36,6 +42,7 @@ public class PartidaRestController {
 
     @GetMapping("/partidas")
     public ResponseEntity<Map<String, Object>> getAllPartidas(
+            @RequestParam(required = false) String descripcion,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size,
             @RequestParam(defaultValue = "idGame,asc") String[] sort) {
@@ -56,18 +63,28 @@ public class PartidaRestController {
 
             Pageable paging = PageRequest.of(page, size, sorts);
             PaginaDto<PartidaList> paginaPartidasList = partidaService.findAll(paging);
+            if (descripcion == null)
+                paginaPartidasList = partidaService.findAll(paging);
+            else
+                paginaPartidasList = partidaService.getByDescripcionContaining(descripcion, paging);
             List<PartidaList> partidas = paginaPartidasList.getContent();
-            Map<String,Object> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
             response.put("data", partidas);
             response.put("currentPage", paginaPartidasList.getNumber());
             response.put("pageSize", paginaPartidasList.getSize());
             response.put("totalItems", paginaPartidasList.getTotalElements());
             response.put("totalPages", paginaPartidasList.getTotalPages());
             return new ResponseEntity<>(response, HttpStatus.OK);
-            
+
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @PostMapping("/nuevaPartida")
+    public ResponseEntity<?> nuevaPartida(@Valid @RequestBody PartidaDb partidaDb) {
+        // partidaDb.setState().;
+        partidaService.save(partidaDb);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
+    }
 }

@@ -42,9 +42,9 @@ INSERT INTO `roles` (`id`, `nombre`) VALUES
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS partidas;
 CREATE  TABLE IF NOT EXISTS partidas (
-  idGame BIGINT,
-  descripcion VARCHAR(100),
-  gameState TEXT,
+  idGame BIGINT NOT NULL AUTO_INCREMENT,
+  descripcion VARCHAR(100) NOT NULL,
+  gameState TEXT NOT NULL,
   CONSTRAINT pk_partidas PRIMARY KEY (idGame) );
   
 DROP TABLE IF EXISTS usuarios_partidas;
@@ -59,6 +59,12 @@ CREATE  TABLE IF NOT EXISTS usuarios_partidas (
 -- ---------------------------------------------------
 -- INSERCIÓN DE DATOS
 -- ---------------------------------------------------
-
+INSERT INTO `partidas` (`idGame`,`descripcion`,`gameState`) VALUES (1,'descripcion1','gameState1');
+INSERT INTO `partidas` (`idGame`,`descripcion`,`gameState`) VALUES (2,'descripcion2','gameState2');
+INSERT INTO `partidas` (`idGame`,`descripcion`,`gameState`) VALUES (3,'descripcion3','gameState3');
+INSERT INTO `partidas` (`idGame`,`descripcion`,`gameState`) VALUES (4,'descripcion4','gameState4');
+INSERT INTO `partidas` (`idGame`,`descripcion`,`gameState`) VALUES (5,'descripcion5','gameState5');
+INSERT INTO `partidas` (`idGame`,`descripcion`,`gameState`) VALUES (6,'descripcion6','gameState6');
+INSERT INTO `partidas` (`idGame`,`descripcion`,`gameState`) VALUES (7,'descripcion7','gameState7');
 
 

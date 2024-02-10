@@ -15,4 +15,6 @@ public interface PartidaService {
     public void save(@NonNull PartidaDb partida);
 
     public PaginaDto<PartidaList> findAll(Pageable paging);
+
+    public PaginaDto<PartidaList> getByDescripcionContaining(String descripcion, Pageable paging);
 }

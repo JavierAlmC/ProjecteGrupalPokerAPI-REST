@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.PartidaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.JwtDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.LoginUsuario;
@@ -145,39 +144,30 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/nuevaPartida/{id}")
-    public ResponseEntity<?> nuevaPartida(BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Mensaje("Datos incorrectos o inválidos"));
-        }
-
-        PartidaDb partidaDb = new PartidaDb();
-        // partidaDb.setState().;
-
-        partidaRepository.save(partidaDb);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
-    }
-
-    /*@PostMapping("/infoPartidas")
-    public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-
-            Optional<UsuarioDb> usuarioDb = usuarioRepository.findById(id);
-            partidaRepository.findAll();
-
-            if (usuarioDb != null) {
-
-                return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Partida no encontrada"));
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
-        }
-    }*/
+    /*
+     * @PostMapping("/infoPartidas")
+     * public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id) {
+     * Authentication authentication =
+     * SecurityContextHolder.getContext().getAuthentication();
+     * 
+     * if (authentication.isAuthenticated() &&
+     * !authentication.getPrincipal().equals("anonymousUser")) {
+     * 
+     * Optional<UsuarioDb> usuarioDb = usuarioRepository.findById(id);
+     * partidaRepository.findAll();
+     * 
+     * if (usuarioDb != null) {
+     * 
+     * return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
+     * } else {
+     * return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
+     * Mensaje("Partida no encontrada"));
+     * }
+     * } else {
+     * return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new
+     * Mensaje("Usuario no autenticado"));
+     * }
+     * }
+     */
 
 }

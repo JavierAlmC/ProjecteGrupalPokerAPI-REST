@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class PartidaList {
     private Long idGame;
+    private String descripcion;
 }

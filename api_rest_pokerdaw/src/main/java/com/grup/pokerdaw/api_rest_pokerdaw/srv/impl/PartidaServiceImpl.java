@@ -42,5 +42,17 @@ public class PartidaServiceImpl implements PartidaService{
             paginaPartidaDb.getSort()
         );
     }
+    @Override
+    public PaginaDto<PartidaList> getByDescripcionContaining(String descripcion, Pageable paging){
+        Page<PartidaDb> paginaPartidaDb = partidaRepository.findByDescripcionContaining(descripcion, paging);
+        return new PaginaDto<PartidaList>(
+            paginaPartidaDb.getNumber(),
+            paginaPartidaDb.getSize(),
+            paginaPartidaDb.getTotalElements(),
+            paginaPartidaDb.getTotalPages(),
+            PartidaMapper.INSTANCE.partidasDbToPartidasList(paginaPartidaDb.getContent()),
+            paginaPartidaDb.getSort()
+        );
+    }
 
 }
