@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CardDb {
+public class Card {
     private String suite;
     private Integer value;
 

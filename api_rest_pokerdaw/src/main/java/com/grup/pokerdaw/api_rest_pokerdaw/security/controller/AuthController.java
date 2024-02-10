@@ -160,7 +160,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
     }
 
-    @PostMapping("/infoPartidas")
+    /*@PostMapping("/infoPartidas")
     public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -178,6 +178,6 @@ public class AuthController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
         }
-    }
+    }*/
 
 }

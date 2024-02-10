@@ -1,7 +1,5 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.srv;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Pageable;
 
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;

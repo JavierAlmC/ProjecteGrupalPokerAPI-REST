@@ -9,16 +9,16 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class DeckDb {
+public class Deck {
     private final List<String> suites = List.of("hearts", "diamonds", "clubs", "spades");
     private final List<Integer> values = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
-    private List<CardDb> cards;
+    private List<Card> cards;
 
-    public DeckDb() {
-        List<CardDb> newCards = List.of();
+    public Deck() {
+        List<Card> newCards = List.of();
         for (String suite : suites) {
             for (Integer value : values) {
-                newCards.add(new CardDb(suite, value));
+                newCards.add(new Card(suite, value));
             }
         }
         Collections.shuffle(newCards);
@@ -26,8 +26,8 @@ public class DeckDb {
         this.cards.addAll(newCards);
     }
 
-    public List<CardDb> giveCards(Integer nCards, List<CardDb> cards) {
-        List<CardDb> givenCards = List.of();
+    public List<Card> giveCards(Integer nCards, List<Card> cards) {
+        List<Card> givenCards = List.of();
         givenCards = new ArrayList<>(cards.subList(0, nCards));
         cards.subList(0, nCards).clear(); // Eliminar cartas dadas de la baraja
         return givenCards;

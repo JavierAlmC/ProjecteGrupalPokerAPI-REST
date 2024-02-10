@@ -43,7 +43,8 @@ INSERT INTO `roles` (`id`, `nombre`) VALUES
 DROP TABLE IF EXISTS partidas;
 CREATE  TABLE IF NOT EXISTS partidas (
   idGame BIGINT,
-  gameState TEXT(),
+  descripcion VARCHAR(100),
+  gameState TEXT,
   CONSTRAINT pk_partidas PRIMARY KEY (idGame) );
   
 DROP TABLE IF EXISTS usuarios_partidas;
@@ -51,7 +52,7 @@ CREATE  TABLE IF NOT EXISTS usuarios_partidas (
   idUsuario BIGINT,
   idPartida BIGINT,
   CONSTRAINT pk_usuarios_partidas PRIMARY KEY (idUsuario,idPartida),
-  FOREIGN KEY (idUsuario) REFERENCES usuarios(id);
+  FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
   FOREIGN KEY (idPartida) REFERENCES partidas(idGame) );
 
 
