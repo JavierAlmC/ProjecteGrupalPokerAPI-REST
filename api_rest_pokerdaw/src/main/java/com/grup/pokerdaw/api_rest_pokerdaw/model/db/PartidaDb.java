@@ -1,10 +1,8 @@
-package com.grup.model.db;
+package com.grup.pokerdaw.api_rest_pokerdaw.model.db;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -18,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "partidas")
 public class PartidaDb {
-
     @Id
+<<<<<<< HEAD:api_rest_pokerdaw/src/main/java/com/grup/model/db/PartidaDb.java
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idGame;
 
@@ -46,4 +44,12 @@ public class PartidaDb {
       }
       }*/
      
+=======
+    // @Column(name = "idGame", nullable = false, unique = true)
+    private Long idGame;
+    @NotNull
+    private String descripcion;
+    @NotNull
+    private String gameState;
+>>>>>>> Javi:api_rest_pokerdaw/src/main/java/com/grup/pokerdaw/api_rest_pokerdaw/model/db/PartidaDb.java
 }

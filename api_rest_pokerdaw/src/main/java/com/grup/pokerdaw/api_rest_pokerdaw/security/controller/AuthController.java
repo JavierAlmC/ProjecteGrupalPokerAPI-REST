@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grup.model.db.PartidaDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.repository.PartidaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.JwtDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.LoginUsuario;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
@@ -33,7 +33,6 @@ import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.RolDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.enums.RolNombre;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.jwt.JwtService;
-import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.PartidaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.service.RolService;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.service.UsuarioService;
@@ -148,47 +147,30 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/nuevaPartida/{nickname}")
-    public ResponseEntity<?> nuevaPartida(@PathVariable String nickname) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        PartidaDb partidaDb = new PartidaDb();
-        // partidaDb.setState().;
-
-
-        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-
-            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
-
-            if (usuarioDb != null) {
-                partidaRepository.save(partidaDb);
-                return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
-        }
-    }
-
-    @GetMapping("/infoPartidas/{nickname}")
-    public ResponseEntity<?> obtenerDetallesPartida(@PathVariable String nickname) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-
-            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
-            List<PartidaDb> partidaDb = partidaRepository.findAll();
-
-            if (usuarioDb != null) {
-                partidaRepository.findAll();
-                return ResponseEntity.status(HttpStatus.OK).body(partidaDb);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Partida no encontrada"));
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
-        }
-    }
+    /*
+     * @PostMapping("/infoPartidas")
+     * public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id) {
+     * Authentication authentication =
+     * SecurityContextHolder.getContext().getAuthentication();
+     * 
+     * if (authentication.isAuthenticated() &&
+     * !authentication.getPrincipal().equals("anonymousUser")) {
+     * 
+     * Optional<UsuarioDb> usuarioDb = usuarioRepository.findById(id);
+     * partidaRepository.findAll();
+     * 
+     * if (usuarioDb != null) {
+     * 
+     * return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
+     * } else {
+     * return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
+     * Mensaje("Partida no encontrada"));
+     * }
+     * } else {
+     * return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new
+     * Mensaje("Usuario no autenticado"));
+     * }
+     * }
+     */
 
 }
