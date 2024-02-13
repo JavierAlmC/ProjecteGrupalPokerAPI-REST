@@ -1,5 +1,6 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.security.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UsuarioService {
 
     public Optional<UsuarioDb> getByNickname(String nickname) {
         return usuaurioRepository.findByNickname(nickname);
+    }
+    public List<UsuarioDb> getByIdGame(Long idGame){
+        return usuaurioRepository.getUsuariosByIdGame(idGame);
     }
     public boolean existsByNickname(String nickname) {
         return usuaurioRepository.existsByNickname(nickname);

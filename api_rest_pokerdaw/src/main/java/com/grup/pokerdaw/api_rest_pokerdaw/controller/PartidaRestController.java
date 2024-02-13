@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,7 +23,6 @@ import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PartidaList;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
-import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.PartidaService;
 
 import jakarta.validation.Valid;
@@ -33,8 +31,10 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1")
 public class PartidaRestController {
     private final PartidaService partidaService;
-    @Autowired
-    UsuarioRepository usuarioRepository;
+    /*
+     * @Autowired
+     * UsuarioRepository usuarioRepository;
+     */
 
     public PartidaRestController(PartidaService partidaService) {
         this.partidaService = partidaService;
@@ -83,7 +83,6 @@ public class PartidaRestController {
 
     @PostMapping("/nuevaPartida")
     public ResponseEntity<?> nuevaPartida(@Valid @RequestBody PartidaDb partidaDb) {
-        // partidaDb.setState().;
         partidaService.save(partidaDb);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
     }

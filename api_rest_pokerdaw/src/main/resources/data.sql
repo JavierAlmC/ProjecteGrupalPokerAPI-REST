@@ -1,3 +1,8 @@
+CREATE  TABLE IF NOT EXISTS partidas (
+  idGame BIGINT NOT NULL AUTO_INCREMENT,
+  descripcion VARCHAR(100) NOT NULL,
+  CONSTRAINT pk_partidas PRIMARY KEY (idGame) );
+
 CREATE  TABLE IF NOT EXISTS usuarios(
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(255) NOT NULL ,
@@ -41,11 +46,6 @@ INSERT INTO `roles` (`id`, `nombre`) VALUES
 -- -----------------------------------------------------
 -- Table `partidas`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS partidas;
-CREATE  TABLE IF NOT EXISTS partidas (
-  idGame BIGINT NOT NULL AUTO_INCREMENT,
-  descripcion VARCHAR(100) NOT NULL,
-  CONSTRAINT pk_partidas PRIMARY KEY (idGame) );
 
 CREATE  TABLE IF NOT EXISTS gameState (
   idState BIGINT NOT NULL AUTO_INCREMENT,
