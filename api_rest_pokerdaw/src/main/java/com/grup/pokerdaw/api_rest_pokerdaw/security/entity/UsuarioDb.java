@@ -3,6 +3,8 @@ package com.grup.pokerdaw.api_rest_pokerdaw.security.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -13,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -40,6 +43,9 @@ public class UsuarioDb {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idRol"))
     private Set<RolDb> roles = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "idPartida")
+    private PartidaDb partida;
 
     public UsuarioDb(@NotNull String nombre, String nickname, @NotNull String email, @NotNull String password) {
         this.nombre = nombre;

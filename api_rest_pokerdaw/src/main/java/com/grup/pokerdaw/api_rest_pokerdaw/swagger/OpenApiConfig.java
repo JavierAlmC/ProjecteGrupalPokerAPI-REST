@@ -12,19 +12,48 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
 
-        info = @Info(contact = @Contact(name = "Equip04", email = "equip04@gmail.com", url = "https://google.com"), 
-        description = "OpenApi documentation for spring security", title = "OpenApi specification - Equip04", version = "1.0", 
-        license = @License(name = "License Equip04", url = "http://equip04.com"), termsOfService = "https://ieslluisimarro.org/termsServices"
+        info = @Info(
+                contact = @Contact(
+                    name = "Equip04",
+                    email = "equip04@gmail.com",
+                    url = "https://google.com"
+                ),
+                description = "OpenApi documentation for spring security",
+                title = "OpenApi specification - Equip04",
+                version = "1.0",
+                license = @License(
+                    name = "License Equip04",
+                    url = "http://equip04.com"
+                ),
+                termsOfService = "https://ieslluisimarro.org/termsServices" 
+        
+        ),
+        servers = {
+                @Server(
+                    description = "Local ENV",
+                    url = "http://localhost:8090"
+                ),
+                @Server(
+                    description = "Prod ENV",
+                    url = "http://equip06/productionAPI"
+                ),
 
-        ), servers = {
-                @Server(description = "Local ENV", url = "http://localhost:8090"),
-                @Server(description = "Prod ENV", url = "http://equip06/productionAPI"),
+        },
+        security = {
+                @SecurityRequirement(
+                    name = "bearerAuth"
+                )
+        }
+)
 
-        }, security = {
-                @SecurityRequirement(name = "bearerAuth")
-        })
+@SecurityScheme(
+        name = "bearerAuth",
+        description = "JWT auth description",
+        scheme = "bearer",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        in = SecuritySchemeIn.HEADER
+)
 
-@SecurityScheme(name = "bearerAuth", description = "JWT auth description", scheme = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", in = SecuritySchemeIn.HEADER)
-
-public class OpenApiConfig {
+public class OpenApiConfig {  
 }
