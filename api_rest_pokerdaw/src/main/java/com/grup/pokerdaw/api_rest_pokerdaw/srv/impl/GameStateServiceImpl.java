@@ -23,12 +23,12 @@ public class GameStateServiceImpl implements GameStateService{
         gameStateRepository.save(gameState);
     }
 
-    @Override
+    /*@Override
     public Optional<GameStateDb> findGameStateById(Long id){
         Optional<GameStateDb> gameState = gameStateRepository.findById(id);
         if (gameState.isPresent())
             return gameState;
         else
             return Optional.empty();
-    }
+    }*/
 }
