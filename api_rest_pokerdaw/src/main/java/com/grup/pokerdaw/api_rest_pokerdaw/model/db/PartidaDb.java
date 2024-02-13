@@ -1,5 +1,8 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.model.db;
 
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.Id;
@@ -14,9 +17,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "partidas")
-public class PartidaDb {
+public class PartidaDb implements Serializable{
     @Id
-    // @Column(name = "idGame", nullable = false, unique = true)
+    @Column(name = "idGame", nullable = false, unique = true)
     private Long idGame;
     @NotNull
     private String descripcion;
