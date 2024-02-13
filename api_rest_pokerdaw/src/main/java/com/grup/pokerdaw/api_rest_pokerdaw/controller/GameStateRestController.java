@@ -18,7 +18,7 @@ public class GameStateRestController {
         this.gameStateService=gameStateService;
     }
 
-    @GetMapping("/gameState/")
+    /*@GetMapping("/gameState/")
     public ResponseEntity<?> getGameStateById(
         @RequestParam Long id
     ){
@@ -27,5 +27,5 @@ public class GameStateRestController {
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-    }
+    }*/
 }

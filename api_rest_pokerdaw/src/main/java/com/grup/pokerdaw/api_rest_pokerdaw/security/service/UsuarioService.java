@@ -22,9 +22,10 @@ public class UsuarioService {
     public Optional<UsuarioDb> getByNickname(String nickname) {
         return usuaurioRepository.findByNickname(nickname);
     }
+    /*
     public List<UsuarioDb> getByIdPartida(Long idGame){
         return usuaurioRepository.getUsuariosByPartida(idGame);
-    }
+    }*/
     public boolean existsByNickname(String nickname) {
         return usuaurioRepository.existsByNickname(nickname);
     }
