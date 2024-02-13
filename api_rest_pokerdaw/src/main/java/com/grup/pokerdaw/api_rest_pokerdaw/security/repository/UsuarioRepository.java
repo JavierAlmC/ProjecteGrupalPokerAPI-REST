@@ -11,7 +11,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioDb, Long> {
 
     Optional<UsuarioDb> findByNickname(String nickname);
 
-    List<UsuarioDb> getUsuariosByIdGame(Long idGame);
+    List<UsuarioDb> getUsuariosByPartida(Long idPartida);
 
     boolean existsByNickname(String nickname);
 
