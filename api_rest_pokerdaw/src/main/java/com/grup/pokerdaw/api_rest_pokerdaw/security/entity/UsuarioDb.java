@@ -45,7 +45,7 @@ public class UsuarioDb {
     @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idRol"))
     private Set<RolDb> roles = new HashSet<>();
     @ManyToOne
-    @JoinColumn(name = "idPartida")
+    @JoinColumn(name = "idGame")
     private PartidaDb partidaDb;
 
     public UsuarioDb(@NotNull String nombre, String nickname, @NotNull String email, @NotNull String password) {

@@ -65,11 +65,11 @@ public class PartidaServiceImpl implements PartidaService{
         );
     }
     @Override
-    public int getPlayersInGame(Long idGame){
+    public Integer getPlayersInGame(Long idGame){
         Optional<PartidaDb> partidaDb = partidaRepository.findById(idGame);
         if (partidaDb.isPresent())
             return partidaDb.get().getUsuarios().size();
         else
-            return 0;
+            return null;
     }
 }
