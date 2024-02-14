@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.GameStateService;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -43,4 +45,10 @@ public class GameStateRestController {
         else
             throw new RuntimeErrorException(null, "ERROR: PARTIDA NOT FOUND");
     }
+
+    /*@PutMapping("/deal/{idGame}")
+    public ResponseEntity<?> putMethodName(@PathVariable String id, @RequestBody String entity) {
+        return entity;
+    }*/
+
 }

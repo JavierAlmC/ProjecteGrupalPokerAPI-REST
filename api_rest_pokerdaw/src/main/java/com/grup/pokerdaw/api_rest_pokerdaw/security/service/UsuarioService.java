@@ -37,5 +37,13 @@ public class UsuarioService {
         usuaurioRepository.save(usuario);
     }
 
+    public void leaveGame(Long idUser){
+        Optional<UsuarioDb> optionalUsuarioDb = usuaurioRepository.findById(idUser);
+        if (optionalUsuarioDb.isPresent()) {
+            UsuarioDb usuarioDb = optionalUsuarioDb.get();
+            usuarioDb.setPartidaDb(null);
+            usuaurioRepository.save(usuarioDb);
+        }
+    }
     
 }
