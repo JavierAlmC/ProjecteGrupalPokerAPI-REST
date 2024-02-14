@@ -23,4 +23,6 @@ public interface PartidaService {
     public Optional<PartidaDb> findById(Long id);
 
     public Integer getPlayersInGame(Long idGame);
+
+    public boolean deleteGameById(Long idGame);
 }

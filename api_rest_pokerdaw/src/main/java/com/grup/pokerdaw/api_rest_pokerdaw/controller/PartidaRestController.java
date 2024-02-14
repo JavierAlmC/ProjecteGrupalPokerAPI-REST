@@ -13,7 +13,9 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,6 +100,17 @@ public class PartidaRestController {
     
     @GetMapping("/partida/usrsInGame")
     public ResponseEntity<?> getUsuariosInGame(@RequestParam(required = true) Long idGame) {
-        return ResponseEntity.ok().body(partidaService.getPlayersInGame(idGame));
+        Integer nPlayers = partidaService.getPlayersInGame(idGame);
+        Map<String,Integer> body = new HashMap<>();
+        body.put("players",nPlayers);
+        return ResponseEntity.ok().body(body);
+    }
+
+    @DeleteMapping("/partida/{id}")
+    public ResponseEntity<?> deleteGameById( @PathVariable("id") Long idGame){
+        if (partidaService.deleteGameById(idGame))
+            return ResponseEntity.ok().body("Game deleted");
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: Game not found");
     }
 }

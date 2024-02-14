@@ -156,11 +156,11 @@ public class AuthController {
             usuario.setPartidaDb(partida);
             partida.getUsuarios().add(usuario);
             usuarioService.save(usuario);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(usuario.getNickname() + " se ha unido a la partida");
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(usuario.getNickname() + " has joined the game");
         } else
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: NO SE PUDO UNIR");
     }
-    
+
     /*
      * @PostMapping("/infoPartidas")
      * public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id) {

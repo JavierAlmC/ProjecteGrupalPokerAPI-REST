@@ -56,7 +56,7 @@ CREATE  TABLE IF NOT EXISTS gameState (
   idPlayingNow INT,
   minDealValue INT,
   deck TEXT,
-  `table` TEXT,
+  tableCards TEXT,
   FOREIGN KEY (idGame) REFERENCES partidas(idGame),
   CONSTRAINT pk_partidas PRIMARY KEY (idState) );
 
