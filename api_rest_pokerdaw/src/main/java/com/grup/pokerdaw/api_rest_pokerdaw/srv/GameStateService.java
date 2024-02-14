@@ -9,5 +9,7 @@ import io.micrometer.common.lang.NonNull;
 public interface GameStateService {
     public void save(@NonNull GameStateDb gameStateDb);
 
-    //public Optional<GameStateDb> findGameStateById(Long id);
+    public Optional<GameStateDb> findGameStateById(Long idState);
+
+    public Optional<GameStateDb> findGameStateByIdGame(Long idGame);
 }

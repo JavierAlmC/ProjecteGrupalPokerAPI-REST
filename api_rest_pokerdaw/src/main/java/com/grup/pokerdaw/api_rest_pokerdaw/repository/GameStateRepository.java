@@ -8,4 +8,5 @@ import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
 
 public interface GameStateRepository extends JpaRepository<GameStateDb, Long>{
     Optional<GameStateDb> findById(Long id);
+    Optional<GameStateDb> findByPartidaDbIdGame(Long idGame);
 }

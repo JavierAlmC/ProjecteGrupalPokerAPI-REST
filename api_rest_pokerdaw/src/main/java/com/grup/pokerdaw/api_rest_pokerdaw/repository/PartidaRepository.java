@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 
 public interface PartidaRepository extends JpaRepository<PartidaDb, Long> {
-    Optional<PartidaDb> findById(Long id);
+    public Optional<PartidaDb> findById(Long id);
 
-    Page<PartidaDb> findByDescripcionContaining(String descripcion, Pageable pageable);
+    public Page<PartidaDb> findByDescripcionContaining(String descripcion, Pageable pageable);
 }
