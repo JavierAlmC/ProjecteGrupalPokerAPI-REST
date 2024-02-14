@@ -25,9 +25,9 @@ public class GameStateDb {
     //private UsuarioDb[] players = {};
     private String round = "Preflop";
     private int whoIsDealer = 0;
-    //private Card[] table = {};
+    private String tableCards;
     private int blinds = 10;
-    //private Deck deck = new Deck();
+    private String deck;
     private int playingNow = 0;
     private int minDealValue = 10;
     @OneToOne(cascade = CascadeType.ALL)
