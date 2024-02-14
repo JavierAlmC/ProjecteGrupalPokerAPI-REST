@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 public class PartidaRestController {
     private final PartidaService partidaService;
     private final GameStateService gameStateService;
