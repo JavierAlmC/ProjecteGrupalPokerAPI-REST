@@ -3,6 +3,8 @@ package com.grup.pokerdaw.api_rest_pokerdaw.security.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 
@@ -44,8 +46,9 @@ public class UsuarioDb {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idRol"))
     private Set<RolDb> roles = new HashSet<>();
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "idGame")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PartidaDb partidaDb;
 
     public UsuarioDb(@NotNull String nombre, String nickname, @NotNull String email, @NotNull String password) {

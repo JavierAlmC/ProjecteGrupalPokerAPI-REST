@@ -11,6 +11,8 @@ import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PartidaList;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.GameStateRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.PartidaRepository;
+import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.PartidaService;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.mapper.PartidaMapper;
 
@@ -20,10 +22,12 @@ import io.micrometer.common.lang.NonNull;
 public class PartidaServiceImpl implements PartidaService {
     private final PartidaRepository partidaRepository;
     private final GameStateRepository gameStateRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public PartidaServiceImpl(PartidaRepository partidaRepository, GameStateRepository gameStateRepository) {
+    public PartidaServiceImpl(PartidaRepository partidaRepository, GameStateRepository gameStateRepository, UsuarioRepository usuarioRepository) {
         this.partidaRepository = partidaRepository;
         this.gameStateRepository=gameStateRepository;
+        this.usuarioRepository=usuarioRepository;
     }
 
     @Override
@@ -80,7 +84,13 @@ public class PartidaServiceImpl implements PartidaService {
 
     @Override
     public boolean deleteGameById(Long idGame) {
-        if (partidaRepository.findById(idGame).isPresent()) {
+        Optional<PartidaDb> optionalPartidaDb = partidaRepository.findById(idGame);
+        if (optionalPartidaDb.isPresent()) {
+            PartidaDb partidaDb = optionalPartidaDb.get();
+            for (UsuarioDb usuario : partidaDb.getUsuarios()) {
+                usuario.setPartidaDb(null);
+                usuario = usuarioRepository.save(usuario);
+            }
             gameStateRepository.deleteByPartidaDbIdGame(idGame);
             partidaRepository.deleteById(idGame);
             return true;
