@@ -26,4 +26,10 @@ Content-Type:application/json
 ## Mostrar lista de partidas
 http://localhost:8090/api/v1/partidas?page=0&size=999&sort=idGame,asc HTTP/1.1
 Content-Type:application/json
-Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcXVpcG8wNCIsImlhdCI6MTcwNzkyNjgzNywiZXhwIjoxNzA3OTYyODM3fQ.rY_KjHSV4HS6zdYDIJ_Ws90kxX9QN92jak_9ft-u3zE
+Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcXVpcG8wNCIsImlhdCI6MTcwNzkzODEzMywiZXhwIjoxNzA3OTc0MTMzfQ.-sQ_EysRiLlsL98xRE3VP13pQvAqDNAOnLJoDcc0Tz4
+###
+##
+GET http://localhost:8090/api/v1/partida/usrsInGame?idGame=1 HTTP/1.1
+Content-Type:application/json
+Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcXVpcG8wNCIsImlhdCI6MTcwNzkzODEzMywiZXhwIjoxNzA3OTc0MTMzfQ.-sQ_EysRiLlsL98xRE3VP13pQvAqDNAOnLJoDcc0Tz4
+
