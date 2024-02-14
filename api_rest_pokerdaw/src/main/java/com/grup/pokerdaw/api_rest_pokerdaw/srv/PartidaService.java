@@ -22,5 +22,5 @@ public interface PartidaService {
 
     public Optional<PartidaDb> findById(Long id);
 
-    public int getPlayersInGame(Long idGame);
+    public Integer getPlayersInGame(Long idGame);
 }

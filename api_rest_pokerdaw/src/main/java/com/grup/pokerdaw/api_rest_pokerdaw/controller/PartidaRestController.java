@@ -87,12 +87,6 @@ public class PartidaRestController {
         }
     }
 
-    @GetMapping("/partida/usrsInGame")
-    public ResponseEntity<?> getUsuariosInGame(@RequestParam(required = true) Long idGame) {
-        return ResponseEntity.ok().body(partidaService.getPlayersInGame(idGame));
-    }
-    
-
     @PostMapping("/nuevaPartida")
     public ResponseEntity<?> nuevaPartida(@Valid @RequestBody PartidaDb partidaDb) {
         partidaDb = partidaService.saveAndFlush(partidaDb);
@@ -100,5 +94,10 @@ public class PartidaRestController {
         gameStateDb.setPartidaDb(partidaDb);
         gameStateService.save(gameStateDb);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
+    }
+    
+    @GetMapping("/partida/usrsInGame")
+    public ResponseEntity<?> getUsuariosInGame(@RequestParam(required = true) Long idGame) {
+        return ResponseEntity.ok().body(partidaService.getPlayersInGame(idGame));
     }
 }

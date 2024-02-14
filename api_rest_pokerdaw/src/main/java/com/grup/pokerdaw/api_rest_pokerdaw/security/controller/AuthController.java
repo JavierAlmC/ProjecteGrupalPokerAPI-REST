@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.PartidaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.JwtDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.LoginUsuario;
@@ -37,6 +38,7 @@ import com.grup.pokerdaw.api_rest_pokerdaw.security.service.RolService;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.service.UsuarioService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/auth")
@@ -144,6 +146,21 @@ public class AuthController {
         }
     }
 
+    @PutMapping("/joinGame/{id}/{idGame}")
+    public ResponseEntity<?> putMethodName(@PathVariable("id") Long id, @PathVariable("idGame") Long idGame) {
+        Optional<UsuarioDb> optionalUsuario = usuarioRepository.findById(id);
+        Optional<PartidaDb> optionalPartida = partidaRepository.findById(idGame);
+        if (optionalUsuario.isPresent() && optionalPartida.isPresent()) {
+            UsuarioDb usuario = optionalUsuario.get();
+            PartidaDb partida = optionalPartida.get();
+            usuario.setPartidaDb(partida);
+            partida.getUsuarios().add(usuario);
+            usuarioService.save(usuario);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(usuario.getNickname() + " se ha unido a la partida");
+        } else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: NO SE PUDO UNIR");
+    }
+    
     /*
      * @PostMapping("/infoPartidas")
      * public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id) {
