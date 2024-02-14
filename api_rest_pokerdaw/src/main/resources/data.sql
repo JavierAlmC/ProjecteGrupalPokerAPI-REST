@@ -11,9 +11,9 @@ CREATE  TABLE IF NOT EXISTS usuarios(
   `password` VARCHAR(255) NOT NULL ,
   `saldo` INT,
   `estadisticas` TEXT,
-  `idPartida` BIGINT,
+  `idGame` BIGINT,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`idPartida`) REFERENCES partidas(idGame),
+  FOREIGN KEY (`idGame`) REFERENCES partidas(idGame),
   CONSTRAINT usuario_uk_nickname UNIQUE KEY (`nickname`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = latin1;
@@ -57,8 +57,7 @@ CREATE  TABLE IF NOT EXISTS gameState (
   minDealValue INT,
   deck TEXT,
   `table` TEXT,
-  idPartida BIGINT,
-  FOREIGN KEY (idPartida) REFERENCES partidas(idGame),
+  FOREIGN KEY (idGame) REFERENCES partidas(idGame),
   CONSTRAINT pk_partidas PRIMARY KEY (idState) );
 
 -- ---------------------------------------------------

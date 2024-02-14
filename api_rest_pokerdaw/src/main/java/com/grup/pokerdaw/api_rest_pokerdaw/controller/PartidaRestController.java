@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PartidaList;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
+import com.grup.pokerdaw.api_rest_pokerdaw.srv.GameStateService;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.PartidaService;
 
 import jakarta.validation.Valid;
@@ -33,13 +35,15 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PartidaRestController {
     private final PartidaService partidaService;
+    private final GameStateService gameStateService;
     /*
      * @Autowired
      * UsuarioRepository usuarioRepository;
      */
 
-    public PartidaRestController(PartidaService partidaService) {
+    public PartidaRestController(PartidaService partidaService, GameStateService gameStateService) {
         this.partidaService = partidaService;
+        this.gameStateService = gameStateService;
     }
 
     @GetMapping("/partidas")
@@ -83,9 +87,18 @@ public class PartidaRestController {
         }
     }
 
+    @GetMapping("/partida/usrsInGame")
+    public ResponseEntity<?> getUsuariosInGame(@RequestParam(required = true) Long idGame) {
+        return ResponseEntity.ok().body(partidaService.getPlayersInGame(idGame));
+    }
+    
+
     @PostMapping("/nuevaPartida")
     public ResponseEntity<?> nuevaPartida(@Valid @RequestBody PartidaDb partidaDb) {
-        partidaService.save(partidaDb);
+        partidaDb = partidaService.saveAndFlush(partidaDb);
+        GameStateDb gameStateDb = new GameStateDb();
+        gameStateDb.setPartidaDb(partidaDb);
+        gameStateService.save(gameStateDb);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
     }
 }

@@ -1,6 +1,9 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.model.db;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -16,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "gameState")
 public class GameStateDb {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idState;
     private int deal = 0;
     //private UsuarioDb[] players = {};
@@ -26,7 +30,7 @@ public class GameStateDb {
     //private Deck deck = new Deck();
     private int playingNow = 0;
     private int minDealValue = 10;
-    @OneToOne
-    @JoinColumn(name = "idGame", referencedColumnName = "idGame")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idGame")
     private PartidaDb partidaDb;
 }

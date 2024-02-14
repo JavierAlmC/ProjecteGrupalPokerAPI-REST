@@ -3,6 +3,7 @@ package com.grup.pokerdaw.api_rest_pokerdaw.security.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
 
 import jakarta.persistence.Column;
@@ -45,7 +46,7 @@ public class UsuarioDb {
     private Set<RolDb> roles = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "idPartida")
-    private PartidaDb partida;
+    private PartidaDb partidaDb;
 
     public UsuarioDb(@NotNull String nombre, String nickname, @NotNull String email, @NotNull String password) {
         this.nombre = nombre;

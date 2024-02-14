@@ -1,6 +1,8 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.srv.impl;
 
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,13 +24,21 @@ public class PartidaServiceImpl implements PartidaService{
         this.partidaRepository=partidaRepository;
     }
 
-    /*@Override
-    public Optional<PartidaList> getById(Long id) {
-        return partidaRepository.findById(id);
-    }*/
     @Override
-    public void save(@NonNull PartidaDb partida) {
-        partidaRepository.save(partida);
+    public Optional<PartidaDb> findById(Long id) {
+        Optional<PartidaDb> partida = partidaRepository.findById(id);
+        if (partida.isPresent())
+            return partida;
+        else
+            return Optional.empty();
+    }
+    @Override
+    public PartidaDb save(@NonNull PartidaDb partida) {
+        return partidaRepository.save(partida);
+    }
+    @Override
+    public PartidaDb saveAndFlush(@NonNull PartidaDb partida) {
+        return partidaRepository.saveAndFlush(partida);
     }
     @Override
     public PaginaDto<PartidaList> findAll(Pageable paging) {
@@ -54,5 +64,12 @@ public class PartidaServiceImpl implements PartidaService{
             paginaPartidaDb.getSort()
         );
     }
-
+    @Override
+    public int getPlayersInGame(Long idGame){
+        Optional<PartidaDb> partidaDb = partidaRepository.findById(idGame);
+        if (partidaDb.isPresent())
+            return partidaDb.get().getUsuarios().size();
+        else
+            return 0;
+    }
 }

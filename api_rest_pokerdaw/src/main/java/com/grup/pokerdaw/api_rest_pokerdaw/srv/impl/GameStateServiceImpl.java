@@ -31,4 +31,12 @@ public class GameStateServiceImpl implements GameStateService{
         else
             return Optional.empty();
     }
+    @Override
+    public Optional<GameStateDb> findGameStateByIdGame(Long id){
+        Optional<GameStateDb> gameState = gameStateRepository.findByPartidaDbIdGame(id);
+        if (gameState.isPresent())
+            return gameState;
+        else
+            return Optional.empty();
+    }
 }
