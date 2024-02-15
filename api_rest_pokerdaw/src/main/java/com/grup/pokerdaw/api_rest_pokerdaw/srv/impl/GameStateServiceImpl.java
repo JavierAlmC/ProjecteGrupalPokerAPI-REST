@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateList;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.GameStateRepository;
@@ -29,7 +30,8 @@ public class GameStateServiceImpl implements GameStateService{
     }
 
     @Override
-    public void save(@NonNull GameStateDb gameState) {
+    public void save(@NonNull GameStateEdit gameStateEdit) {
+        GameStateDb gameState = GameStateMapper.INSTANCE.gameStateEditToGameStateDb(gameStateEdit);
         gameStateRepository.save(gameState);
     }
     @Override

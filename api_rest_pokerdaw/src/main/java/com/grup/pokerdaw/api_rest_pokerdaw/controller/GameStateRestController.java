@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateList;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
@@ -98,8 +98,8 @@ public class GameStateRestController {
 
     // POST REQUESTS
     @PostMapping("/game")
-    public ResponseEntity<?> createGameState(@Valid @RequestBody GameStateDb gameStateDb) {
-        gameStateService.save(gameStateDb);
+    public ResponseEntity<?> createGameState(@Valid @RequestBody GameStateEdit gameStateEdit) {
+        gameStateService.save(gameStateEdit);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("New GameState created"));
     }
 

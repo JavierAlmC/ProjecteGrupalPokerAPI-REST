@@ -19,9 +19,9 @@ CREATE  TABLE IF NOT EXISTS usuarios(
   `password` VARCHAR(255) NOT NULL ,
   `saldo` INT,
   `estadisticas` TEXT,
-  `idGameState` BIGINT,
+  `idState` BIGINT,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`idGameState`) REFERENCES gameState(idState),
+  FOREIGN KEY (`idState`) REFERENCES gameState(idState),
   CONSTRAINT usuario_uk_nickname UNIQUE KEY (`nickname`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = latin1;
