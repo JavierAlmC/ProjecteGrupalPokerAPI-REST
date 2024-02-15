@@ -1,6 +1,6 @@
 CREATE  TABLE IF NOT EXISTS gameState (
   idState BIGINT NOT NULL AUTO_INCREMENT,
-  gameStateName VARCHAR(50)
+  gameStateName VARCHAR(50),
   deal INT,
   round VARCHAR(50),
   whoIsDealer INT,
