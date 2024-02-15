@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.GameStateService;
-import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
