@@ -89,28 +89,4 @@ public class PartidaRestController {
         }
     }
 
-    @PostMapping("/nuevaPartida")
-    public ResponseEntity<?> nuevaPartida(@Valid @RequestBody PartidaDb partidaDb) {
-        partidaDb = partidaService.saveAndFlush(partidaDb);
-        GameStateDb gameStateDb = new GameStateDb();
-        gameStateDb.setPartidaDb(partidaDb);
-        gameStateService.save(gameStateDb);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("Partida creada"));
-    }
-    
-    @GetMapping("/partida/usrsInGame")
-    public ResponseEntity<?> getUsuariosInGame(@RequestParam(required = true) Long idGame) {
-        Integer nPlayers = partidaService.getPlayersInGame(idGame);
-        Map<String,Integer> body = new HashMap<>();
-        body.put("players",nPlayers);
-        return ResponseEntity.ok().body(body);
-    }
-
-    @DeleteMapping("/partida/{id}")
-    public ResponseEntity<?> deleteGameById( @PathVariable("id") Long idGame){
-        if (partidaService.deleteGameById(idGame))
-            return ResponseEntity.ok().body("Game deleted");
-        else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: Game not found");
-    }
 }

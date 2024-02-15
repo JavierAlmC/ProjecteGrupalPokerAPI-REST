@@ -41,7 +41,7 @@ public class UsuarioService {
         Optional<UsuarioDb> optionalUsuarioDb = usuaurioRepository.findById(idUser);
         if (optionalUsuarioDb.isPresent()) {
             UsuarioDb usuarioDb = optionalUsuarioDb.get();
-            usuarioDb.setPartidaDb(null);
+            usuarioDb.setGameStateDb(null);
             usuaurioRepository.save(usuarioDb);
         }
     }
