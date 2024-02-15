@@ -39,4 +39,23 @@ public class GameStateServiceImpl implements GameStateService{
         else
             return Optional.empty();
     }
+    @Override
+    public boolean newRound(Long idGame){
+        Optional<GameStateDb> optionalGameState = gameStateRepository.findByPartidaDbIdGame(idGame);
+        if (optionalGameState.isPresent()) {
+            GameStateDb gameStateDb = optionalGameState.get();
+            gameStateDb.setDeal(0);
+            gameStateDb.setRound("Preflop");
+            //gameStateDb.setWhoIsDealer(0); no se encara com iterar sobre els users
+            //gameStateDb.setTableCards(""); aci tocara serialitzar crec
+            gameStateDb.setMinDealValue(gameStateDb.getBlinds());
+            //gameStateDb.setDeck(); igual que en tableCards
+            //gameStateDb.setPlayingNow(0);
+            // giveCardsToPlayers()
+            //gameStateRepository
+            return true;
+        } else
+            return false;
+        
+    }
 }

@@ -12,4 +12,6 @@ public interface GameStateService {
     public Optional<GameStateDb> findGameStateById(Long idState);
 
     public Optional<GameStateDb> findGameStateByIdGame(Long idGame);
+
+    public boolean newRound(Long id);
 }
