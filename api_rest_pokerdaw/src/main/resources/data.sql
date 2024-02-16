@@ -20,6 +20,7 @@ CREATE  TABLE IF NOT EXISTS usuarios(
   `saldo` INT,
   `estadisticas` TEXT,
   `idState` BIGINT,
+  `idCreatedGame` BIGINT,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`idState`) REFERENCES gameState(idState),
   CONSTRAINT usuario_uk_nickname UNIQUE KEY (`nickname`))

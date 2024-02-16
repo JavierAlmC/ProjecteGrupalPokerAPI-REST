@@ -10,8 +10,8 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class Deck {
-    private final List<String> suites = List.of("hearts", "diamonds", "clubs", "spades");
-    private final List<Integer> values = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
+    private static final List<String> suites = List.of("hearts", "diamonds", "clubs", "spades");
+    private static final List<Integer> values = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
     private List<Card> cards;
 
     public Deck() {

@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,21 +32,7 @@ public class UsuarioRestController {
     @Autowired
     GameStateRepository gameStateRepository;
 
-    @PutMapping("/joinGame/{id}/{idGame}")
-    public ResponseEntity<?> putMethodName(@PathVariable("id") Long id, @PathVariable("idGame") Long idGame) {
-        Optional<UsuarioDb> optionalUsuario = usuarioRepository.findById(id);
-        Optional<GameStateDb> optionalGameState = gameStateRepository.findById(idGame);
-        if (optionalUsuario.isPresent() && optionalGameState.isPresent()) {
-            UsuarioDb usuario = optionalUsuario.get();
-            GameStateDb gameState = optionalGameState.get();
-            usuario.setGameStateDb(gameState);
-            gameState.getUsuarios().add(usuario);
-            usuarioService.save(usuario);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(usuario.getNickname() + " has joined the game");
-        } else
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: NO SE PUDO UNIR");
-    }
-
+    // GET REQUESTS
     @GetMapping("/infoPerfil/{nickname}")
     public ResponseEntity<?> obtenerDetallesUsuario(@PathVariable String nickname) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,6 +52,45 @@ public class UsuarioRestController {
         }
     }
 
+    // PUT REQUESTS
+    @PutMapping("/joinGame/{id}/{idGame}")
+    public ResponseEntity<?> joinGame(@PathVariable("id") Long id, @PathVariable("idGame") Long idGame) {
+        Optional<UsuarioDb> optionalUsuario = usuarioRepository.findById(id);
+        Optional<GameStateDb> optionalGameState = gameStateRepository.findById(idGame);
+        if (optionalUsuario.isPresent() && optionalGameState.isPresent()) {
+            UsuarioDb usuario = optionalUsuario.get();
+            GameStateDb gameState = optionalGameState.get();
+            usuario.setGameStateDb(gameState);
+            gameState.getUsuarios().add(usuario);
+            usuarioService.save(usuario);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(usuario.getNickname() + " has joined the game");
+        } else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: NO SE PUDO UNIR");
+    }
+
+    @PostMapping("/newGame/{idUser}")
+    public ResponseEntity<?> createGameStateByUserId(@PathVariable("idUser") Long idUser) {
+        Optional<UsuarioDb> optionalUsuario = usuarioRepository.findById(idUser);
+        if (optionalUsuario.isPresent()) {
+            UsuarioDb usuarioDb = optionalUsuario.get();
+            if (usuarioDb.getIdCreatedGame()==null) {
+                GameStateDb newGameStateDb = new GameStateDb();
+                newGameStateDb = gameStateRepository.save(newGameStateDb);
+                usuarioDb.setIdCreatedGame(newGameStateDb.getIdState());
+                usuarioService.save(usuarioDb);
+                return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("New GameState created"));
+            }else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new Mensaje("ERROR: User already created a game"));
+            }
+            
+
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("ERROR: User not found"));
+        }
+        
+    }
+
+    // DELETE REQUESTS
     @DeleteMapping("/eliminarUsuario/{nickname}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable String nickname) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

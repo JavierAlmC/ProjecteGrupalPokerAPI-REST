@@ -28,6 +28,8 @@ import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.GameStateService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -44,7 +46,7 @@ public class GameStateRestController {
             @RequestParam(required = false) String gameStateName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size,
-            @RequestParam(defaultValue = "idGame,asc") String[] sort) {
+            @RequestParam(defaultValue = "idState,asc") String[] sort) {
         try {
             List<Order> criteriosOrdenacion = new ArrayList<Order>();
             if (sort[0].contains(",")) {
@@ -61,8 +63,8 @@ public class GameStateRestController {
             Sort sorts = Sort.by(criteriosOrdenacion);
 
             Pageable paging = PageRequest.of(page, size, sorts);
-            PaginaDto<GameStateList> paginaPartidasList = gameStateService.findAll(paging);
-            if (gameStateService == null)
+            PaginaDto<GameStateList> paginaPartidasList;
+            if (gameStateName == null)
                 paginaPartidasList = gameStateService.findAll(paging);
             else
                 paginaPartidasList = gameStateService.getByGameStateNameContaining(gameStateName, paging);
@@ -101,6 +103,17 @@ public class GameStateRestController {
     public ResponseEntity<?> createGameState(@Valid @RequestBody GameStateEdit gameStateEdit) {
         gameStateService.save(gameStateEdit);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("New GameState created"));
+    }
+
+    // PUT REQUESTS
+    @PutMapping("game/{id}")
+    public ResponseEntity<?> newRound(@PathVariable("id") Long id) {
+        
+        if (gameStateService.newRound(id)) {
+            return ResponseEntity.ok().body(new Mensaje("New Round"));
+        } else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("ERROR: User not found"));
+        }
     }
 
     // DELETE REQUESTS

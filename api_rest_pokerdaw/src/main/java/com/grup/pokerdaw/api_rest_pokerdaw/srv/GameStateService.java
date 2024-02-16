@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.Deck;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateList;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
@@ -22,7 +22,11 @@ public interface GameStateService {
 
     public Integer getPlayersInGame(Long idGame);
 
-    public Optional<GameStateDb> findGameStateById(Long idState);
+    public Optional<GameStateEdit> findGameStateById(Long idState);
 
     public boolean newRound(Long id);
+
+    // SERIALIZATION FUNCTIONS
+    public String deckToString(Deck deck);
+    public Deck StringToDeck(String deckStr);
 }

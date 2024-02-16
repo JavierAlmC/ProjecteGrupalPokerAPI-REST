@@ -14,8 +14,8 @@ public interface GameStateMapper {
     GameStateMapper INSTANCE = Mappers.getMapper(GameStateMapper.class);
 
     GameStateDb gameStateEditToGameStateDb(GameStateEdit gameStateEdit);
+    GameStateEdit gameStateDbToGameStateEdit(GameStateDb gameStateDb);
 
     GameStateList gameStateDbToGameStateList(GameStateDb gameStateDb);
-
     List<GameStateList> gameStatesDbToGameStatesList(List<GameStateDb> gameStatesDb);
 }

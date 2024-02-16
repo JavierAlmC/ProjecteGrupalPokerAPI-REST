@@ -42,6 +42,7 @@ public class UsuarioDb {
     private String email;
     @NotNull
     private String password;
+    private Long idCreatedGame;
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idRol"))

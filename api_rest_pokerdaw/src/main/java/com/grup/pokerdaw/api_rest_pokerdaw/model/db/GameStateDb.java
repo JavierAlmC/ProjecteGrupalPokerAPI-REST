@@ -2,6 +2,7 @@ package com.grup.pokerdaw.api_rest_pokerdaw.model.db;
 
 import java.util.List;
 
+import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.UsuarioInGame;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 
 import jakarta.persistence.Entity;

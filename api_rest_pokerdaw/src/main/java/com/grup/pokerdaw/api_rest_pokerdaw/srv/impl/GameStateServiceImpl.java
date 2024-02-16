@@ -6,6 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.Deck;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateList;
@@ -71,10 +74,10 @@ public class GameStateServiceImpl implements GameStateService{
             paginaGameStateDb.getSort());
     }
     @Override
-    public Optional<GameStateDb> findGameStateById(Long id){
+    public Optional<GameStateEdit> findGameStateById(Long id){
         Optional<GameStateDb> gameState = gameStateRepository.findById(id);
         if (gameState.isPresent())
-            return gameState;
+            return Optional.of(GameStateMapper.INSTANCE.gameStateDbToGameStateEdit(gameState.get()));
         else
             return Optional.empty();
     }
@@ -92,17 +95,42 @@ public class GameStateServiceImpl implements GameStateService{
         if (optionalGameState.isPresent()) {
             GameStateDb gameStateDb = optionalGameState.get();
             gameStateDb.setDeal(0);
-            gameStateDb.setRound("Preflop");
-            //gameStateDb.setWhoIsDealer(0); no se encara com iterar sobre els users
+            gameStateDb.setRound("klk");
+            //gameStateDb.setWhoIsDealer(0);
             //gameStateDb.setTableCards(""); aci tocara serialitzar crec
             gameStateDb.setMinDealValue(gameStateDb.getBlinds());
-            //gameStateDb.setDeck(); igual que en tableCards
+            Deck newDeck = new Deck();
+            String strNewDeck = deckToString(newDeck);
+            gameStateDb.setDeck(strNewDeck);
             //gameStateDb.setPlayingNow(0);
             // giveCardsToPlayers()
-            //gameStateRepository
+            gameStateRepository.save(gameStateDb);
             return true;
         } else
             return false;
         
+    }
+
+    // SERIALIZATION FUNCTIONS
+    @Override
+    public String deckToString(Deck deck){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(deck);
+        } catch (JsonProcessingException e) {
+            //e.printStackTrace();
+            return null;
+        }
+            
+        
+    }
+    @Override
+    public Deck StringToDeck(String deckStr){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(deckStr, Deck.class);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 }
