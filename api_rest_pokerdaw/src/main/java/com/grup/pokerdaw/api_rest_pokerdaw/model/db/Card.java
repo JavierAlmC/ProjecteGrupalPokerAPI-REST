@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Card {
-    private String suite;
-    private Integer value;
+    public String suit;
+    public int value;
+   
 
 }
