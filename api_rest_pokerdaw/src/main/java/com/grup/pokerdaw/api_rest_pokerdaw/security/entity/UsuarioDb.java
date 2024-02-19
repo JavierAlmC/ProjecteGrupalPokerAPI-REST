@@ -6,7 +6,7 @@ import java.util.Set;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PartidaDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,14 +42,15 @@ public class UsuarioDb {
     private String email;
     @NotNull
     private String password;
+    private Long idCreatedGame;
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idRol"))
     private Set<RolDb> roles = new HashSet<>();
     @ManyToOne()
-    @JoinColumn(name = "idGame")
+    @JoinColumn(name = "idState")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private PartidaDb partidaDb;
+    private GameStateDb gameStateDb;
 
     public UsuarioDb(@NotNull String nombre, String nickname, @NotNull String email, @NotNull String password) {
         this.nombre = nombre;

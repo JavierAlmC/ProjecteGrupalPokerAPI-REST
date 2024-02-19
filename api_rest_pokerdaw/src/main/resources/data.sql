@@ -1,7 +1,15 @@
-CREATE  TABLE IF NOT EXISTS partidas (
-  idGame BIGINT NOT NULL AUTO_INCREMENT,
-  descripcion VARCHAR(100) NOT NULL,
-  CONSTRAINT pk_partidas PRIMARY KEY (idGame) );
+CREATE  TABLE IF NOT EXISTS gameState (
+  idState BIGINT NOT NULL AUTO_INCREMENT,
+  gameStateName VARCHAR(50),
+  deal INT,
+  round VARCHAR(50),
+  whoIsDealer INT,
+  blinds INT,
+  idPlayingNow INT,
+  minDealValue INT,
+  deck TEXT,
+  tableCards TEXT,
+  CONSTRAINT pk_gameState PRIMARY KEY (idState) );
 
 CREATE  TABLE IF NOT EXISTS usuarios(
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -11,9 +19,10 @@ CREATE  TABLE IF NOT EXISTS usuarios(
   `password` VARCHAR(255) NOT NULL ,
   `saldo` INT,
   `estadisticas` TEXT,
-  `idGame` BIGINT,
+  `idState` BIGINT,
+  `idCreatedGame` BIGINT,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`idGame`) REFERENCES partidas(idGame),
+  FOREIGN KEY (`idState`) REFERENCES gameState(idState),
   CONSTRAINT usuario_uk_nickname UNIQUE KEY (`nickname`))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = latin1;
@@ -46,20 +55,6 @@ INSERT INTO `roles` (`id`, `nombre`) VALUES
 -- -----------------------------------------------------
 -- Table `partidas`
 -- -----------------------------------------------------
-
-CREATE  TABLE IF NOT EXISTS gameState (
-  idState BIGINT NOT NULL AUTO_INCREMENT,
-  deal INT,
-  round VARCHAR(50),
-  whoIsDealer INT,
-  blinds INT,
-  idPlayingNow INT,
-  minDealValue INT,
-  deck TEXT,
-  tableCards TEXT,
-  idGame BIGINT,
-  FOREIGN KEY (idGame) REFERENCES partidas(idGame),
-  CONSTRAINT pk_partidas PRIMARY KEY (idState) );
 
 -- ---------------------------------------------------
 -- INSERCIÓN DE DATOS
