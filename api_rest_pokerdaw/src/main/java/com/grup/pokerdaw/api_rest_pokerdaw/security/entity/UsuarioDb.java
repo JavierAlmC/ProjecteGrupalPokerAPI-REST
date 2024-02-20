@@ -42,8 +42,10 @@ public class UsuarioDb {
     private String email;
     @NotNull
     private String password;
-    private Integer saldo;
-    private Integer totalApostado;
+    @NotNull
+    private Integer saldo = 1000;
+    @NotNull
+    private Integer totalApostado = 0;
     private Long idCreatedGame;
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
@@ -54,11 +56,20 @@ public class UsuarioDb {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private GameStateDb gameStateDb;
 
-    public UsuarioDb(@NotNull String nombre, String nickname, @NotNull String email, @NotNull String password) {
+    public UsuarioDb(@NotNull String nombre, String nickname, @NotNull String email, @NotNull String password, @NotNull Integer saldo, @NotNull Integer totalApostado) {
         this.nombre = nombre;
         this.nickname = nickname;
         this.email = email;
         this.password = password;
+        this.saldo = saldo;
+        this.totalApostado = totalApostado;
+    }
+
+    public UsuarioDb(String nombre2, String nickname2, String email2, String encode) {
+        this.nombre = nombre2;
+        this.nickname = nickname2;
+        this.email = email2;
+        this.password = encode;
     }
 
 }
