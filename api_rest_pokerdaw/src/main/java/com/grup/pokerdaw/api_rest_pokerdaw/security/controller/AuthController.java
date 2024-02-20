@@ -1,6 +1,8 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.security.controller;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,8 @@ import jakarta.validation.Valid;
 @RequestMapping("/auth")
 @CrossOrigin(origins = "*")
 public class AuthController {
+   
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
