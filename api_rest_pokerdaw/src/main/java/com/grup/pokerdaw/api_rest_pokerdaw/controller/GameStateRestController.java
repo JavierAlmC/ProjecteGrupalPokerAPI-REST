@@ -99,11 +99,13 @@ public class GameStateRestController {
     }
 
     // POST REQUESTS
+    /* 
     @PostMapping("/game")
-    public ResponseEntity<?> createGameState(@Valid @RequestBody GameStateEdit gameStateEdit) {
-        gameStateService.save(gameStateEdit);
+    public ResponseEntity<?> createGameState() {
+        GameStateEdit newGame = new GameStateEdit();
+        gameStateService.save(newGame);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("New GameState created"));
-    }
+    }*/
 
     // PUT REQUESTS
     @PutMapping("game/{id}")

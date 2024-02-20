@@ -42,9 +42,7 @@ public class UsuarioDb {
     private String email;
     @NotNull
     private String password;
-    @NotNull
     private Integer saldo;
-    @NotNull
     private Integer totalApostado;
     private Long idCreatedGame;
     @NotNull

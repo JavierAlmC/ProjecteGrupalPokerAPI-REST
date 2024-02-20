@@ -1,5 +1,8 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.srv.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -7,8 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.grup.pokerdaw.api_rest_pokerdaw.model.db.Deck;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.Card;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateList;
@@ -99,9 +103,15 @@ public class GameStateServiceImpl implements GameStateService{
             //gameStateDb.setWhoIsDealer(0);
             //gameStateDb.setTableCards(""); aci tocara serialitzar crec
             gameStateDb.setMinDealValue(gameStateDb.getBlinds());
-            Deck newDeck = new Deck();
-            String strNewDeck = deckToString(newDeck);
-            gameStateDb.setDeck(strNewDeck);
+            List<Card> newDeck = newDeck();
+            String strNewDeck;
+            try {
+                strNewDeck = cardsToString(newDeck);
+                gameStateDb.setDeck(strNewDeck);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            
             //gameStateDb.setPlayingNow(0);
             // giveCardsToPlayers()
             gameStateRepository.save(gameStateDb);
@@ -113,24 +123,29 @@ public class GameStateServiceImpl implements GameStateService{
 
     // SERIALIZATION FUNCTIONS
     @Override
-    public String deckToString(Deck deck){
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(deck);
-        } catch (JsonProcessingException e) {
-            //e.printStackTrace();
-            return null;
-        }
+    public String cardsToString(List<Card> cards) throws JsonProcessingException{
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(cards);
             
         
     }
     @Override
-    public Deck StringToDeck(String deckStr){
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(deckStr, Deck.class);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
+    public List<Card> stringToCards(String deckStr) throws JsonProcessingException{
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(deckStr,new TypeReference<List<Card>>(){});
+    }
+
+    // DECK RELATED FUNCTIONS
+    public List<Card> newDeck(){
+        List<String> suites = List.of("hearts", "diamonds", "clubs", "spades");
+        List<Integer> values = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
+        List<Card> newCards = new ArrayList<>();
+        for (String suit : suites) {
+            for (Integer value : values) {
+                newCards.add(new Card(suit, value));
+            }
+        } 
+        Collections.shuffle(newCards);
+        return newCards;
     }
 }
