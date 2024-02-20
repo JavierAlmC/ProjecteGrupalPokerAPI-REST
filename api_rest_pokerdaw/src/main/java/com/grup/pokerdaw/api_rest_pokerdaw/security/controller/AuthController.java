@@ -1,8 +1,11 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.security.controller;
 
 import java.util.HashSet;
+<<<<<<< HEAD
 import java.util.List;
 import java.util.Optional;
+=======
+>>>>>>> Javi
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +19,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.repository.PartidaRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.JwtDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.LoginUsuario;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
@@ -41,7 +40,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class AuthController {
    
 
@@ -62,9 +61,6 @@ public class AuthController {
 
     @Autowired
     UsuarioRepository usuarioRepository;
-
-    @Autowired
-    PartidaRepository partidaRepository;
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult) {
@@ -109,68 +105,5 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(jwtDto);
 
     }
-
-    @GetMapping("/infoPerfil/{nickname}")
-    public ResponseEntity<?> obtenerDetallesUsuario(@PathVariable String nickname) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-
-            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
-
-            if (usuarioDb != null) {
-
-                return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
-        }
-    }
-
-    @DeleteMapping("/eliminarUsuario/{nickname}")
-    public ResponseEntity<?> eliminarUsuario(@PathVariable String nickname) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
-
-            if (usuarioDb.isPresent()) {
-                usuarioRepository.delete(usuarioDb.get());
-                return ResponseEntity.status(HttpStatus.OK).body(new Mensaje("Usuario eliminado correctamente"));
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
-        }
-    }
-
-    /*
-     * @PostMapping("/infoPartidas")
-     * public ResponseEntity<?> obtenerDetallesPartida(@PathVariable Long id) {
-     * Authentication authentication =
-     * SecurityContextHolder.getContext().getAuthentication();
-     * 
-     * if (authentication.isAuthenticated() &&
-     * !authentication.getPrincipal().equals("anonymousUser")) {
-     * 
-     * Optional<UsuarioDb> usuarioDb = usuarioRepository.findById(id);
-     * partidaRepository.findAll();
-     * 
-     * if (usuarioDb != null) {
-     * 
-     * return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
-     * } else {
-     * return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
-     * Mensaje("Partida no encontrada"));
-     * }
-     * } else {
-     * return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new
-     * Mensaje("Usuario no autenticado"));
-     * }
-     * }
-     */
 
 }

@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PartidaList {
-    private Long idGame;
-    private String descripcion;
+public class UsuarioInGame {
+    private Long id;
+    private String nickname;
+    private Long idState;
 }

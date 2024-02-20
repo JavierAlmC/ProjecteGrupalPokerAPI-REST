@@ -29,7 +29,21 @@ public class UsuarioService {
         return usuaurioRepository.existsByEmail(email);
     }
 
+    /*public List<UsuarioDb> getUsuariosByIdGame(Long idGame){
+        return usuaurioRepository.getUsuariosDbByPartidaDbIdGame(idGame);
+    }*/
+    
     public void save(@NonNull UsuarioDb usuario) {
         usuaurioRepository.save(usuario);
     }
+
+    public void leaveGame(Long idUser){
+        Optional<UsuarioDb> optionalUsuarioDb = usuaurioRepository.findById(idUser);
+        if (optionalUsuarioDb.isPresent()) {
+            UsuarioDb usuarioDb = optionalUsuarioDb.get();
+            usuarioDb.setGameStateDb(null);
+            usuaurioRepository.save(usuarioDb);
+        }
+    }
+    
 }
