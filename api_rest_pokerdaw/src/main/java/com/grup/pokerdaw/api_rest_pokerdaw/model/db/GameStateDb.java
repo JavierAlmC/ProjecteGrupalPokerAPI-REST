@@ -30,7 +30,7 @@ public class GameStateDb {
     private String tableCards;
     private int blinds = 10;
     private String deck;
-    private int playingNow = 0;
+    private int idPlayingNow = 0;
     private int minDealValue = 10;
     @OneToMany(mappedBy = "gameStateDb")
     private List<UsuarioDb> usuarios;

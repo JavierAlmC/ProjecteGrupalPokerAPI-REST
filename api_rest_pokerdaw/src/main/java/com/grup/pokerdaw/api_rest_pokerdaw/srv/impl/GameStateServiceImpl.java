@@ -44,7 +44,9 @@ public class GameStateServiceImpl implements GameStateService{
     @Override
     public boolean deleteById(Long idGame){
         Optional<GameStateDb> optionalGameState = gameStateRepository.findById(idGame);
+        System.out.println(optionalGameState);
         if (optionalGameState.isPresent()){
+            
             GameStateDb gameStateDb = optionalGameState.get();
             for (UsuarioDb usuario : gameStateDb.getUsuarios()) {
                 usuario.setGameStateDb(null);
@@ -98,6 +100,7 @@ public class GameStateServiceImpl implements GameStateService{
         Optional<GameStateDb> optionalGameState = gameStateRepository.findById(idGame);
         if (optionalGameState.isPresent()) {
             GameStateDb gameStateDb = optionalGameState.get();
+            //resetPlayersState(state.players) deal + state resetejat
             gameStateDb.setDeal(0);
             gameStateDb.setRound("klk");
             //gameStateDb.setWhoIsDealer(0);
@@ -111,7 +114,7 @@ public class GameStateServiceImpl implements GameStateService{
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-            
+            //resetPlayersDeal(state.players)
             //gameStateDb.setPlayingNow(0);
             // giveCardsToPlayers()
             gameStateRepository.save(gameStateDb);
@@ -136,6 +139,7 @@ public class GameStateServiceImpl implements GameStateService{
     }
 
     // DECK RELATED FUNCTIONS
+    @Override
     public List<Card> newDeck(){
         List<String> suites = List.of("hearts", "diamonds", "clubs", "spades");
         List<Integer> values = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
@@ -148,4 +152,19 @@ public class GameStateServiceImpl implements GameStateService{
         Collections.shuffle(newCards);
         return newCards;
     }
+    @Override
+    public List<Card> giveCards(Integer nCards, List<Card> deck){
+        List<Card> givenCards = List.of();
+        givenCards = new ArrayList<>(deck.subList(0, nCards));
+        deck.subList(0, nCards).clear(); // Eliminar cartas dadas de la baraja
+        return givenCards;
+    }
+
+    // PLAYER RELATED FUNCTIONS
+    /*@Override
+    public void resetPlayers(List<UsuarioDb> usuarios){
+        for(UsuarioDb usuario : usuarios){
+            usuario.set
+        }
+    }*/
 }

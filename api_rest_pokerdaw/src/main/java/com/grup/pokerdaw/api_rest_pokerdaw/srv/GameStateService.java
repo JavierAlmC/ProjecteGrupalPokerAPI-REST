@@ -10,6 +10,7 @@ import com.grup.pokerdaw.api_rest_pokerdaw.model.db.Card;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateList;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
+import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 
 import io.micrometer.common.lang.NonNull;
 
@@ -34,4 +35,8 @@ public interface GameStateService {
 
     // DECK RELATED FUNCTIONS
     public List<Card> newDeck();
+    public List<Card> giveCards(Integer nCards, List<Card> deck);
+
+    // PLAYER RELATED FUNCTIONS
+    //public void resetPlayers(List<UsuarioDb> usuarios);
 }
