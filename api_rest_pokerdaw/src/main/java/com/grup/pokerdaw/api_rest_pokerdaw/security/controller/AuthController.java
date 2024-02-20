@@ -1,11 +1,8 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.security.controller;
 
 import java.util.HashSet;
-<<<<<<< HEAD
 import java.util.List;
 import java.util.Optional;
-=======
->>>>>>> Javi
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;

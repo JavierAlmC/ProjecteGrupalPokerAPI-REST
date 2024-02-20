@@ -25,5 +25,4 @@ public class PartidaDb implements Serializable{
     private String descripcion;
     @NotNull
     private String gameState;
->>>>>>> Javi:api_rest_pokerdaw/src/main/java/com/grup/pokerdaw/api_rest_pokerdaw/model/db/PartidaDb.java
 }
