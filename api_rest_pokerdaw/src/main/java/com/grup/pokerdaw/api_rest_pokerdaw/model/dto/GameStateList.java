@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class GameStateList {
     private Long idState;
     private String gameStateName;
+    private Integer nPlayers;
 }

@@ -18,7 +18,7 @@ CREATE  TABLE IF NOT EXISTS usuarios(
   `email` VARCHAR(255) NOT NULL ,
   `password` VARCHAR(255) NOT NULL ,
   `saldo` INT,
-  `estadisticas` TEXT,
+  `totalApostado` INT,
   `idState` BIGINT,
   `idCreatedGame` BIGINT,
   PRIMARY KEY (`id`),
