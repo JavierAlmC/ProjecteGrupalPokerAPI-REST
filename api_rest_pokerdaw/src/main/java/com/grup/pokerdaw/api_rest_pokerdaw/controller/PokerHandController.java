@@ -3,6 +3,8 @@ package com.grup.pokerdaw.api_rest_pokerdaw.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,5 +30,17 @@ public class PokerHandController {
 
         return response;
     }
+
+     @PostMapping("/resolverMano")
+    public ResponseEntity<HashMap<String, Object>> resolverMano(@RequestBody ArrayList<Card> hand) {
+        try {
+            HashMap<String, Object> result = HandResolverService.handResolver(hand);
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } 
+    }
+    
 }
 

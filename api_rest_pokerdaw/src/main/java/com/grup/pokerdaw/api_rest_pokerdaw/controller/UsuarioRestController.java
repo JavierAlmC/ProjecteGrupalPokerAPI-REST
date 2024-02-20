@@ -1,5 +1,6 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +13,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.UsuarioEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.GameStateRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.service.UsuarioService;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -46,6 +50,22 @@ public class UsuarioRestController {
                 return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
+        }
+    }
+
+    @GetMapping("/ordenadosPorSaldo")
+    public ResponseEntity<?> obtenerUsuariosOrdenadosPorSaldo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            try {
+                List<UsuarioDb> usuariosOrdenadosPorSaldo = usuarioRepository.findAllByOrderBySaldoDesc();
+                return ResponseEntity.status(HttpStatus.OK).body(usuariosOrdenadosPorSaldo);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Mensaje("Error al obtener usuarios"));
             }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
@@ -88,6 +108,31 @@ public class UsuarioRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("ERROR: User not found"));
         }
         
+    }
+
+
+    @PostMapping("/modificarUsuario/{nickname}")
+    public ResponseEntity<?> modificarUsuario(@PathVariable String nickname, @RequestBody UsuarioEdit usuarioModificado) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            Optional<UsuarioDb> usuarioDb = usuarioRepository.findByNickname(nickname);
+
+            if (usuarioDb.isPresent()) {
+                UsuarioDb usuarioExistente = usuarioDb.get();
+
+                usuarioExistente.setNombre(usuarioModificado.getNombre());
+                usuarioExistente.setEmail(usuarioModificado.getEmail());
+
+                usuarioRepository.save(usuarioExistente);
+
+                return ResponseEntity.status(HttpStatus.OK).body(new Mensaje("Usuario modificado correctamente"));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("Usuario no encontrado"));
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Mensaje("Usuario no autenticado"));
+        }
     }
 
     // DELETE REQUESTS

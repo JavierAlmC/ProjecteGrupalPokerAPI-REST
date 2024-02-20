@@ -1,5 +1,6 @@
 package com.grup.pokerdaw.api_rest_pokerdaw.security.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioDb, Long> {
     public boolean existsByNickname(String nickname);
 
     boolean existsByEmail(String email);
+
+    public List<UsuarioDb> findAllByOrderBySaldoDesc();
 
 }
