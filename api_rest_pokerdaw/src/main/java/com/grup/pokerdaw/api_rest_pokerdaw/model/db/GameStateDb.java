@@ -2,8 +2,6 @@ package com.grup.pokerdaw.api_rest_pokerdaw.model.db;
 
 import java.util.List;
 
-import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,12 +24,12 @@ public class GameStateDb {
     private String gameStateName;
     private int deal = 0;
     private String round = "Preflop";
-    private int whoIsDealer = 0;
+    private Long whoIsDealer;
     private String tableCards;
     private int blinds = 10;
     private String deck;
-    private int idPlayingNow = 0;
+    private Long idPlayingNow;
     private int minDealValue = 10;
-    @OneToMany(mappedBy = "gameStateDb")
-    private List<UsuarioDb> usuarios;
+    @OneToMany(mappedBy = "idState")
+    private List<PlayerDb> usuarios;
 }

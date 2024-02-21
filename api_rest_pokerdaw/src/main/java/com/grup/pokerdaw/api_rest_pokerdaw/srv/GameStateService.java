@@ -7,10 +7,10 @@ import org.springframework.data.domain.Pageable;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.Card;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PlayerDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateList;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
-import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 
 import io.micrometer.common.lang.NonNull;
 
@@ -38,5 +38,8 @@ public interface GameStateService {
     public List<Card> giveCards(Integer nCards, List<Card> deck);
 
     // PLAYER RELATED FUNCTIONS
-    //public void resetPlayers(List<UsuarioDb> usuarios);
+    public void resetPlayers(List<PlayerDb> usuarios);
+    public Long nextDealer (List<PlayerDb> usuarios);
+    public Long getStartingPlayerId(List<PlayerDb> usuarios);
+    public void giveCardsToPlayers(List<Card> deck,List<PlayerDb> usuarios);
 }

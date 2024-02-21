@@ -10,7 +10,7 @@ import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 @Mapper
 public interface UsuarioMapper {
     UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
-    
-    @Mapping(target = "idState",source = "gameStateDb.idState")
+
+    @Mapping(target = "idState", source = "gameStateDb.idState")
     UsuarioInGame usuarioDbTUsuarioInGame(UsuarioDb usuarioDb);
-} 
+}

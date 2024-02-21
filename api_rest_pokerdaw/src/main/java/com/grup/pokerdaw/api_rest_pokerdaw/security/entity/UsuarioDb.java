@@ -49,6 +49,7 @@ public class UsuarioDb {
     private String cards; // Mapeja a List<Cards>
     private String isDealer;
     private Integer currentDeal;
+    private String playerState;
     private Long idCreatedGame;
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)

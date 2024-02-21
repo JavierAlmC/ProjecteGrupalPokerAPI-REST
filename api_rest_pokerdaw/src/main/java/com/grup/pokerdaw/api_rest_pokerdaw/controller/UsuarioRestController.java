@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PlayerDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.UsuarioEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.GameStateRepository;
+import com.grup.pokerdaw.api_rest_pokerdaw.repository.PlayerRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.dto.Mensaje;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.UsuarioRepository;
@@ -31,6 +33,8 @@ import com.grup.pokerdaw.api_rest_pokerdaw.security.service.UsuarioService;
 public class UsuarioRestController {
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    PlayerRepository playerRepository;
     @Autowired
     UsuarioService usuarioService;
     @Autowired
@@ -79,9 +83,10 @@ public class UsuarioRestController {
         Optional<GameStateDb> optionalGameState = gameStateRepository.findById(idGame);
         if (optionalUsuario.isPresent() && optionalGameState.isPresent()) {
             UsuarioDb usuario = optionalUsuario.get();
+            PlayerDb player = playerRepository.findById(id).get();
             GameStateDb gameState = optionalGameState.get();
             usuario.setGameStateDb(gameState);
-            gameState.getUsuarios().add(usuario);
+            gameState.getUsuarios().add(player);
             usuarioService.save(usuario);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(usuario.getNickname() + " has joined the game");
         } else

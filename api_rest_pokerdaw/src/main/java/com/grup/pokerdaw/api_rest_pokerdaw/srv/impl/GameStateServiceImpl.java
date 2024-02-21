@@ -14,10 +14,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.Card;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.db.GameStateDb;
+import com.grup.pokerdaw.api_rest_pokerdaw.model.db.PlayerDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateEdit;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.GameStateList;
 import com.grup.pokerdaw.api_rest_pokerdaw.model.dto.PaginaDto;
 import com.grup.pokerdaw.api_rest_pokerdaw.repository.GameStateRepository;
+import com.grup.pokerdaw.api_rest_pokerdaw.repository.PlayerRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.entity.UsuarioDb;
 import com.grup.pokerdaw.api_rest_pokerdaw.security.repository.UsuarioRepository;
 import com.grup.pokerdaw.api_rest_pokerdaw.srv.GameStateService;
@@ -30,10 +32,12 @@ public class GameStateServiceImpl implements GameStateService{
 
     private final GameStateRepository gameStateRepository;
     private final UsuarioRepository usuarioRepository;
+    private final PlayerRepository playerRepository;
 
-    public GameStateServiceImpl(GameStateRepository gameStateRepository, UsuarioRepository usuarioRepository){
+    public GameStateServiceImpl(GameStateRepository gameStateRepository, UsuarioRepository usuarioRepository,PlayerRepository playerRepository){
         this.gameStateRepository=gameStateRepository;
         this.usuarioRepository=usuarioRepository;
+        this.playerRepository = playerRepository;
     }
 
     @Override
@@ -48,7 +52,8 @@ public class GameStateServiceImpl implements GameStateService{
         if (optionalGameState.isPresent()){
             
             GameStateDb gameStateDb = optionalGameState.get();
-            for (UsuarioDb usuario : gameStateDb.getUsuarios()) {
+            for (PlayerDb player : gameStateDb.getUsuarios()) {
+                UsuarioDb usuario = usuarioRepository.findById(player.getId()).get();
                 usuario.setGameStateDb(null);
                 usuario = usuarioRepository.save(usuario);
             }
@@ -100,11 +105,11 @@ public class GameStateServiceImpl implements GameStateService{
         Optional<GameStateDb> optionalGameState = gameStateRepository.findById(idGame);
         if (optionalGameState.isPresent()) {
             GameStateDb gameStateDb = optionalGameState.get();
-            //resetPlayersState(state.players) deal + state resetejat
+            resetPlayers(gameStateDb.getUsuarios());
             gameStateDb.setDeal(0);
-            gameStateDb.setRound("klk");
-            //gameStateDb.setWhoIsDealer(0);
-            //gameStateDb.setTableCards(""); aci tocara serialitzar crec
+            gameStateDb.setRound("Preflop");
+            gameStateDb.setWhoIsDealer(nextDealer(gameStateDb.getUsuarios()));
+            gameStateDb.setTableCards("[]");
             gameStateDb.setMinDealValue(gameStateDb.getBlinds());
             List<Card> newDeck = newDeck();
             String strNewDeck;
@@ -114,9 +119,13 @@ public class GameStateServiceImpl implements GameStateService{
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-            //resetPlayersDeal(state.players)
-            //gameStateDb.setPlayingNow(0);
-            // giveCardsToPlayers()
+            gameStateDb.setIdPlayingNow(getStartingPlayerId(gameStateDb.getUsuarios()));
+            try {
+                giveCardsToPlayers(stringToCards(gameStateDb.getDeck()), gameStateDb.getUsuarios());
+            } catch (JsonProcessingException e) {
+                e.getMessage();
+            }
+            
             gameStateRepository.save(gameStateDb);
             return true;
         } else
@@ -154,17 +163,59 @@ public class GameStateServiceImpl implements GameStateService{
     }
     @Override
     public List<Card> giveCards(Integer nCards, List<Card> deck){
-        List<Card> givenCards = List.of();
-        givenCards = new ArrayList<>(deck.subList(0, nCards));
+        List<Card> givenCards = new ArrayList<>(deck.subList(0, nCards));
         deck.subList(0, nCards).clear(); // Eliminar cartas dadas de la baraja
         return givenCards;
     }
 
     // PLAYER RELATED FUNCTIONS
-    /*@Override
-    public void resetPlayers(List<UsuarioDb> usuarios){
-        for(UsuarioDb usuario : usuarios){
-            usuario.set
+    @Override
+    public void resetPlayers(List<PlayerDb> usuarios){
+
+        System.out.println(usuarios.size());
+        for(PlayerDb player : usuarios){
+            player.setCurrentDeal(0);
+            player.setPlayerState("In");
+            playerRepository.save(player);
         }
-    }*/
+    }
+    @Override
+    public Long nextDealer (List<PlayerDb> usuarios){
+        int i = 0;
+        boolean dealerFound = false;
+        while (i<usuarios.size() && !dealerFound) {
+            PlayerDb usuario = usuarios.get(i);
+            if (usuario.getIsDealer()=="true") {
+                dealerFound=true;
+                usuario.setIsDealer("false");
+                if (i==usuarios.size()-1)
+                    usuario = usuarios.get(0);
+                else
+                    usuario = usuarios.get(i+1);
+                usuario.setIsDealer("true");
+                return usuario.getId();
+            }
+            i++;
+        }
+        return null;
+    }
+    @Override
+    public Long getStartingPlayerId(List<PlayerDb> usuarios){
+        Optional<PlayerDb> dealerFound = usuarios.stream().filter(usr -> usr.getIsDealer()=="true").findFirst();
+        if (dealerFound.isPresent()) 
+            return dealerFound.get().getId();
+        else
+            return -1L;
+    }
+    @Override
+    public void giveCardsToPlayers(List<Card> deck,List<PlayerDb> usuarios){
+        for (PlayerDb playerDb : usuarios) {
+            try {
+                playerDb.setCards(cardsToString(giveCards(2, deck)));
+            } catch (Exception e) {
+                e.getMessage();
+            }
+            
+        }
+    }
 }
