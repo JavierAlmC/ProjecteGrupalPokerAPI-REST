@@ -29,17 +29,29 @@ public interface GameStateService {
 
     public boolean newRound(Long id);
 
+    public void nextRound(Long idGame);
+
     // SERIALIZATION FUNCTIONS
     public String cardsToString(List<Card> cards) throws JsonProcessingException;
+
     public List<Card> stringToCards(String deckStr) throws JsonProcessingException;
 
     // DECK RELATED FUNCTIONS
     public List<Card> newDeck();
+
     public List<Card> giveCards(Integer nCards, List<Card> deck);
 
     // PLAYER RELATED FUNCTIONS
     public void resetPlayers(List<PlayerDb> usuarios);
-    public Long nextDealer (List<PlayerDb> usuarios);
+
+    public Long nextDealer(List<PlayerDb> usuarios);
+
     public Long getStartingPlayerId(List<PlayerDb> usuarios);
-    public void giveCardsToPlayers(List<Card> deck,List<PlayerDb> usuarios);
+
+    public void giveCardsToPlayers(List<Card> deck, List<PlayerDb> usuarios);
+
+    public void resetPlayersStatePlayersThatAreIn(List<PlayerDb> usuarios);
+
+    // BUTTON RELATED FUNCTIONS
+    public void dealAmmount(int ammount, PlayerDb player);
 }

@@ -30,7 +30,6 @@ import com.grup.pokerdaw.api_rest_pokerdaw.srv.GameStateService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 @RestController
 @RequestMapping("/api/v1")
 public class GameStateRestController {
@@ -81,6 +80,7 @@ public class GameStateRestController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/game")
     public ResponseEntity<?> getGameStateById(
             @RequestParam Long id) {
@@ -90,48 +90,52 @@ public class GameStateRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
     @GetMapping("/game/{idGame}/usrsInGame")
     public ResponseEntity<?> getUsuariosInGame(@PathVariable("idGame") Long idGame) {
         Integer nPlayers = gameStateService.getPlayersInGame(idGame);
-        Map<String,Integer> body = new HashMap<>();
-        body.put("players",nPlayers);
+        Map<String, Integer> body = new HashMap<>();
+        body.put("players", nPlayers);
         return ResponseEntity.ok().body(body);
     }
 
     // POST REQUESTS
-    /* 
-    @PostMapping("/game")
-    public ResponseEntity<?> createGameState() {
-        GameStateEdit newGame = new GameStateEdit();
-        gameStateService.save(newGame);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Mensaje("New GameState created"));
-    }*/
+    /*
+     * @PostMapping("/game")
+     * public ResponseEntity<?> createGameState() {
+     * GameStateEdit newGame = new GameStateEdit();
+     * gameStateService.save(newGame);
+     * return ResponseEntity.status(HttpStatus.CREATED).body(new
+     * Mensaje("New GameState created"));
+     * }
+     */
 
     // PUT REQUESTS
     @PutMapping("game/{id}")
     public ResponseEntity<?> newRound(@PathVariable("id") Long id) {
-        
+
         if (gameStateService.newRound(id)) {
             return ResponseEntity.ok().body(new Mensaje("New Round"));
-        } else{
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Mensaje("ERROR: User not found"));
         }
     }
 
+    /*
+     * @PutMapping("/deal/{idGame}")
+     * public ResponseEntity<?> deal(@PathVariable String id, @RequestBody
+     * String entity) {
+     * return entity;
+     * }
+     */
+
     // DELETE REQUESTS
     @DeleteMapping("/game/{id}")
-    public ResponseEntity<?> deleteGameById( @PathVariable("id") Long idGame){
+    public ResponseEntity<?> deleteGameById(@PathVariable("id") Long idGame) {
         if (gameStateService.deleteById(idGame))
             return ResponseEntity.ok().body("Game deleted");
         else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: Game not found");
     }
-    /*
-     * @PutMapping("/deal/{idGame}")
-     * public ResponseEntity<?> putMethodName(@PathVariable String id, @RequestBody
-     * String entity) {
-     * return entity;
-     * }
-     */
 
 }
